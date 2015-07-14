@@ -24,7 +24,9 @@
                 <include>org.eclipse.equinox:org.eclipse.equinox.preferences</include>
                 <include>org.eclipse.equinox:org.eclipse.equinox.security</include>
                 <include>org.eclipse.equinox:org.eclipse.equinox.common</include>
+                <include>org.eclipse.equinox:org.eclipse.equinox.app</include>
                 <include>org.eclipse.core:org.eclipse.core.runtime</include>
+                <include>org.eclipse.osgi:org.eclipse.osgi</include>
 
                 <include>org.antlr.runtime:org.antlr.runtime</include>
                 

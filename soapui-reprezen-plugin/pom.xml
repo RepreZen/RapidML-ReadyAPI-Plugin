@@ -20,6 +20,11 @@
 			<url>http://maven.reprezen.com/repository/releases/</url>
 			<layout>default</layout>
 		</repository>
+		<repository>
+			<id>google-maven-snapshot-repository</id>
+			<name>Google Maven Snapshot Repository</name>
+			<url>https://oss.sonatype.org/content/repositories/google-releases/</url>
+		</repository>
 	</repositories>
 
 	<dependencies>
@@ -90,11 +95,11 @@
 			<artifactId>antlr-runtime</artifactId> <version>3.2.0.v201101311130</version> 
 			</dependency> -->
 
-		<dependency>
-			<groupId>com.google.inject</groupId>
-			<artifactId>com.google.inject</artifactId>
-			<version>3.0.0.v201203062045</version>
-		</dependency>
+<dependency>
+	<groupId>com.google.inject</groupId>
+	<artifactId>guice</artifactId>
+	<version>3.0</version>
+</dependency>
 	</dependencies>
 
 	<build>
