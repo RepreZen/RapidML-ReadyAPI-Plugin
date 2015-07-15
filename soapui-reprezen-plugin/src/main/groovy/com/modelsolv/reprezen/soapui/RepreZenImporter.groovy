@@ -6,12 +6,14 @@ import org.eclipse.xtext.resource.XtextResource
 import org.eclipse.xtext.resource.XtextResourceSet
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import com.eviware.soapui.support.UISupport
 
 import com.eviware.soapui.impl.rest.*
 import com.eviware.soapui.impl.rest.mock.RestMockService
 import com.eviware.soapui.impl.wsdl.WsdlProject
 import com.google.inject.Guice
 import com.google.inject.Injector
+import com.modelsolv.reprezen.restapi.ResourceAPI;
 import com.modelsolv.reprezen.restapi.ZenModel
 import com.modelsolv.reprezen.restapi.xtext.XtextDslRuntimeModule
 import com.modelsolv.reprezen.restapi.xtext.XtextDslStandaloneSetup
@@ -35,22 +37,17 @@ class RepreZenImporter {
 		this.project = project
 	}
 
-	public RestService importZenModel(String url) {
+	public List<RestService> importZenModel(String url) {
 
-	//	if (url.startsWith("file:"))
-			File file = new File(new URL(url).toURI())
+		//	if (url.startsWith("file:"))
+		File file = new File(new URL(url).toURI())
 
 		logger.info("Importing RepreZen model [$url]")
-
-		def zenModel = loadModel(file)
-		//				RestService restService = createRestService(swagger.basePath, swagger.info)
-		//				swagger.paths.each {
-		//					importPath(restService, it.key, it.value)
-		//				}
-		//
-		//				result.add(restService)
-		//				ensureEndpoint(restService, url)
-		zenModel
+		ZenModel zenModel = loadModel(file)
+		def List<RestService> result = zenModel.resourceAPIs.collect {
+			RestService restService = createRestService(it)
+		}
+		result
 
 	}
 
@@ -70,33 +67,25 @@ class RepreZenImporter {
 		return model;
 	}
 
-	private RestService createRestService(String path, ZenModel zenModel) {
-		String name = zenModel?.name
-		if (name == null)
-			name = path
-
+	private RestService createRestService(ResourceAPI resourceAPI) {
+		String name = resourceAPI?.name
 		RestService restService = project.addNewInterface(name, RestServiceFactory.REST_TYPE)
-//		restService.description = zenModel.documentation?.body
-
+		restService.description = resourceAPI.documentation?.text
+		// TODO generate REST services for resource APIs
+		String path = resourceAPI.getBaseURI()
 		if (path != null) {
 			try {
-				if (path.startsWith("/")) {
-					if (path.length() > 1) {
-						restService.basePath = path
-					}
-				} else {
-					URL url = new URL(path)
-					def pathPos = path.length() - url.path.length()
-
-					restService.basePath = path.substring(pathPos)
-					restService.addEndpoint(path.substring(0, pathPos))
-				}
+				restService.basePath = path
+				// TODO set endpoint
 			}
 			catch (Exception e) {
-				SoapUI.logError(e)
+				UISupport.showErrorMessage(e)
 			}
 		}
-
+		resourceAPI.getOwnedResourceDefinitions().each{rapidResource ->
+			def soapUiResource = restService.addNewResource(rapidResource.name, "/"+rapidResource.getURI().toString())
+			soapUiResource.description = rapidResource.documentation?.text
+		}
 		return restService
 	}
 
