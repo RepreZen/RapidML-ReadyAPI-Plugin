@@ -10,21 +10,18 @@ import com.eviware.soapui.impl.rest.support.RestParamsPropertyHolder
 import com.eviware.soapui.impl.wsdl.WsdlProject
 
 
-class BlueprintImporterTest extends GroovyTestCase {
+class RepreZenImporterTest extends GroovyTestCase {
 
-    public void testTaxBlaster()
-    {
-//        WsdlProject project = new WsdlProject();
-//        RepreZenImporter importer = new RepreZenImporter( project )
-//       importer.setRestMockService( project.addNewRestMockService( "RestMock"))
-//
-//
-//       RestService service = importer.importZenModel(
-//                new File( "src/test/resources/tesla.blueprint").toURI().toURL().toString(),
-//                "http://www.test.com");
-//        RestResource resource = service.getResourceByFullPath( "/login");
-//        assertEquals( 2, resource.getRestMethodCount());
+	public void testTaxBlaster() {
+		RestService restService = importRepreZen("TaxBlaster.zen")
+		def Map<String, RestResource> resources = restService.getResources()
+		assertFalse("Expecting at least one resource to be generated", resources.isEmpty())
+	}
 
-    }
-
+	public static def RestService importRepreZen( def path ) {
+		WsdlProject project = new WsdlProject()
+		RepreZenImporter importer = new RepreZenImporter( project )
+		String uri = new File( "src/test/resources/" + path ).toURI().toURL().toString();
+		return importer.importZenModel(uri).get(0);
+	}
 }
