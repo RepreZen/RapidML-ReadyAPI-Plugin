@@ -18,6 +18,12 @@ class RepreZenImporterTest extends GroovyTestCase {
 		assertFalse("Expecting at least one resource to be generated", resources.isEmpty())
 	}
 
+	public void testTaxBlasterWithExamples() {
+		RestService restService = importRepreZen("TaxBlasterWithExamples.zen")
+		def Map<String, RestResource> resources = restService.getResources()
+		assertFalse("Expecting at least one resource to be generated", resources.isEmpty())
+	}
+
 	public static def RestService importRepreZen( def path ) {
 		WsdlProject project = new WsdlProject()
 		RepreZenImporter importer = new RepreZenImporter( project )
