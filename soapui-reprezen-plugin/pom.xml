@@ -12,18 +12,19 @@
 
 	<repositories>
 		<repository>
-			<id>SoapUI Repository</id>
-			<url>http://www.soapui.org/repository/maven2</url>
-		</repository>
-		<repository>
-			<id>reprezen-repo-releases</id>
+			<id>reprezen</id>
 			<url>http://maven.reprezen.com/repository/releases/</url>
 			<layout>default</layout>
 		</repository>
 		<repository>
-			<id>google-maven-snapshot-repository</id>
-			<name>Google Maven Snapshot Repository</name>
-			<url>https://oss.sonatype.org/content/repositories/google-releases/</url>
+			<id>eviware</id>
+			<name>Eviware Maven2 Repository</name>
+			<url>http://www.eviware.com/repository/maven2</url>
+		</repository>
+		<repository>
+			<id>central</id>
+			<name>Central Maven2 Repository</name>
+			<url>http://repo1.maven.org/maven2</url>
 		</repository>
 	</repositories>
 
@@ -53,15 +54,14 @@
 		</dependency>
 
 		<dependency>
-			<groupId>com.smartbear.soapui</groupId>
-			<artifactId>soapui</artifactId>
-			<version>5.1.0</version>
+			<groupId>com.smartbear</groupId>
+			<artifactId>ready-api-soapui-pro</artifactId>
+			<version>1.3.1</version>
 		</dependency>
-
 		<dependency>
-			<groupId>com.smartbear.soapui</groupId>
-			<artifactId>soapui-pro</artifactId>
-			<version>5.1.0</version>
+			<groupId>com.smartbear</groupId>
+			<artifactId>ready-api-projects</artifactId>
+			<version>1.3.1</version>
 		</dependency>
 
 		<dependency>
@@ -81,7 +81,6 @@
 			<artifactId>com.modelsolv.reprezen.generators.xtend</artifactId>
 			<version>${reprezen.version}</version>
 		</dependency>
-
 
 		<dependency>
 			<groupId>com.google.inject</groupId>
@@ -143,4 +142,19 @@
 		<reprezen.version>0.8.208.2016</reprezen.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>com.google.guava</groupId>
+				<artifactId>guava</artifactId>
+				<version>15.0</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.httpcomponents</groupId>
+				<artifactId>httpcore</artifactId>
+				<version>4.3.3</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 </project>

@@ -51,14 +51,14 @@ public class ImportRepreZenAction extends AbstractSoapUIAction<WsdlProject> {
         if (dialog == null) {
             dialog = ADialogBuilder.buildDialog(Form.class);
         } else {
-            dialog.setValue(Form.BLUEPRINT_URL, "");
+            dialog.setValue(Form.REPREZEN_MODEL_PATH, "");
         }
 
 
         while (dialog.show()) {
             try {
                 // get the specified URL
-                String url = dialog.getValue(Form.BLUEPRINT_URL).trim();
+                String url = dialog.getValue(Form.REPREZEN_MODEL_PATH).trim();
                 if (StringUtils.hasContent(url)) {
                     // expand any property-expansions
                     String expUrl = PathUtils.expandPath(url, project);
@@ -70,7 +70,7 @@ public class ImportRepreZenAction extends AbstractSoapUIAction<WsdlProject> {
                     XProgressDialog dlg = UISupport.getDialogs().createProgressDialog("Importing API", 0, "", false);
                     dlg.run(new RepreZenImporterWorker(expUrl, project));
 
-                    Analytics.trackAction("ImportBlueprint");
+                    Analytics.trackAction("ImportRepreZenModel");
                     break;
                 }
             } catch (Exception ex) {
@@ -82,7 +82,7 @@ public class ImportRepreZenAction extends AbstractSoapUIAction<WsdlProject> {
     @AForm(name = "Import RepreZen model", description = "Creates a REST API from the specified RepreZen model")
     public interface Form {
         @AField(name = "Import RepreZen model", description = "Location or URL of RepreZen model", type = AFieldType.FILE)
-        public final static String BLUEPRINT_URL = "Import RepreZen model";
+        public final static String REPREZEN_MODEL_PATH = "Import RepreZen model";
  
      }
 }
