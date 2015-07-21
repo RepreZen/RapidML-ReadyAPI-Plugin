@@ -1,6 +1,9 @@
 package com.modelsolv.reprezen.soapui
 
-import org.apache.xalan.lib.sql.QueryParameter;
+import org.apache.xmlbeans.XmlBoolean
+import org.apache.xmlbeans.XmlDate
+import org.apache.xmlbeans.XmlDouble
+import org.apache.xmlbeans.XmlInteger
 import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.ecore.resource.Resource.Diagnostic
 import org.eclipse.xtext.resource.XtextResource
@@ -8,35 +11,32 @@ import org.eclipse.xtext.resource.XtextResourceSet
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
+import com.eviware.soapui.impl.rest.RestMethod
+import com.eviware.soapui.impl.rest.RestRepresentation
+import com.eviware.soapui.impl.rest.RestRequest
 import com.eviware.soapui.impl.rest.RestResource
 import com.eviware.soapui.impl.rest.RestService
 import com.eviware.soapui.impl.rest.RestServiceFactory
-import com.eviware.soapui.impl.rest.RestMethod
-import com.eviware.soapui.impl.rest.RestRepresentation;
-import com.eviware.soapui.impl.rest.RestRequest;
 import com.eviware.soapui.impl.rest.RestRequestInterface.HttpMethod
 import com.eviware.soapui.impl.rest.mock.RestMockService
-import com.eviware.soapui.impl.rest.support.RestParameter;
-import com.eviware.soapui.impl.rest.support.RestParamsPropertyHolder;
-import com.eviware.soapui.impl.rest.support.RestParamsPropertyHolder.ParameterStyle;
+import com.eviware.soapui.impl.rest.support.RestParameter
+import com.eviware.soapui.impl.rest.support.RestParamsPropertyHolder
+import com.eviware.soapui.impl.rest.support.RestParamsPropertyHolder.ParameterStyle
 import com.eviware.soapui.impl.wsdl.WsdlProject
-import com.eviware.soapui.plugins.ApiImporter;
-import com.eviware.soapui.support.UISupport
-import com.eviware.soapui.support.types.StringToStringsMap
-import com.modelsolv.reprezen.restapi.HttpMessageParameterLocation;
-import com.modelsolv.reprezen.restapi.MatrixParameter;
+import com.eviware.soapui.support.StringUtils
+import com.modelsolv.reprezen.restapi.HttpMessageParameterLocation
+import com.modelsolv.reprezen.restapi.MatrixParameter
 import com.modelsolv.reprezen.restapi.MediaType
-import com.modelsolv.reprezen.restapi.MessageParameter;
+import com.modelsolv.reprezen.restapi.MessageParameter
 import com.modelsolv.reprezen.restapi.Method
-import com.modelsolv.reprezen.restapi.Parameter;
+import com.modelsolv.reprezen.restapi.Parameter
 import com.modelsolv.reprezen.restapi.ResourceAPI
-import com.modelsolv.reprezen.restapi.TemplateParameter;
-import com.modelsolv.reprezen.restapi.TypedMessage;
-import com.modelsolv.reprezen.restapi.TypedRequest;
+import com.modelsolv.reprezen.restapi.TemplateParameter
+import com.modelsolv.reprezen.restapi.TypedMessage
+import com.modelsolv.reprezen.restapi.TypedRequest
 import com.modelsolv.reprezen.restapi.ZenModel
-import com.modelsolv.reprezen.restapi.libraries.util.PrimitiveTypes;
+import com.modelsolv.reprezen.restapi.libraries.util.PrimitiveTypes
 import com.modelsolv.reprezen.restapi.xtext.XtextDslStandaloneSetup
-import com.eviware.soapui.plugins.PluginApiImporter;
 
 
 /**
@@ -57,17 +57,13 @@ class RepreZenImporter {
 	}
 
 	public List<RestService> importZenModel(String url) {
-
-		//	if (url.startsWith("file:"))
 		File file = new File(new URL(url).toURI())
-
 		logger.info("Importing RepreZen model [$url]")
 		ZenModel zenModel = loadModel(file)
 		def List<RestService> result = zenModel.resourceAPIs.collect {
 			RestService restService = createRestService(it)
 		}
 		result
-
 	}
 
 	private ZenModel loadModel(File file) {
@@ -81,6 +77,7 @@ class RepreZenImporter {
 		if (!xtextResource.getErrors().isEmpty()) {
 			for (Diagnostic error : xtextResource.getErrors()) {
 				System.err.println(error);
+				throw new RuntimeException("Selected RepreZen model contains errors: " + error.message)
 			}
 		}
 		return model;
@@ -90,15 +87,15 @@ class RepreZenImporter {
 		String name = resourceAPI?.name
 		RestService restService = project.addNewInterface(name, RestServiceFactory.REST_TYPE)
 		restService.description = resourceAPI.documentation?.text
-		// TODO generate REST services for resource APIs
 		String path = resourceAPI.getBaseURI()
 		if (path != null) {
-			try {
+			URL endpointUrl = new URL(path);
+			String basePath = endpointUrl.path;
+			if (StringUtils.hasContent(basePath)) {
+				restService.addEndpoint(path.substring(0, path.length() - basePath.length()));
+				restService.setBasePath(basePath);
+			} else {
 				restService.basePath = path
-				// TODO set endpoint
-			}
-			catch (Exception e) {
-				UISupport.showErrorMessage(e)
 			}
 		}
 		resourceAPI.getOwnedResourceDefinitions().each{rapidResource ->
@@ -154,8 +151,7 @@ class RepreZenImporter {
 			if (!rapidMessage.mediaTypes.isEmpty()) {
 				representation.mediaType = rapidMessage.mediaTypes.get(0).name
 			}
-			// What's equivalent of exampleContent? The defaultContent is r/o
-			// representation.defaultContent = example.body;
+			representation.sampleContent = example.body;
 			representation
 		}
 	}
@@ -174,21 +170,14 @@ class RepreZenImporter {
 		param.style = getParameterStyle(rapidParameter)
 		param.description = rapidParameter.documentation?.text
 		param.defaultValue = rapidParameter.default
+		param.required = rapidParameter.required
 
-		param.required =rapidParameter.required
-
-		// TODO - support enumerations
-
-		//		if( param.options == null || param.options.length == 0 )
-		//			param.options = p.enumeration
-		// TODO - set type
-		//		switch (rapidParameter.type) {
-		//			case PrimitiveTypes.DOUBLE: param.type = XmlDouble.type.name; break;
-		//			case PrimitiveTypes.INTEGER: param.type = XmlInteger.type.name; break;
-		//			case PrimitiveTypes.DATE: param.type = XmlDate.type.name; break;
-		//			case PrimitiveTypes.BOOLEAN: param.type = XmlBoolean.type.name; break;
-		//		}
-
+		switch (rapidParameter.primitiveType) {
+			case PrimitiveTypes.DOUBLE: param.type = XmlDouble.type.name; break;
+			case PrimitiveTypes.INTEGER: param.type = XmlInteger.type.name; break;
+			case PrimitiveTypes.DATE: param.type = XmlDate.type.name; break;
+			case PrimitiveTypes.BOOLEAN: param.type = XmlBoolean.type.name; break;
+		}
 		return param
 	}
 

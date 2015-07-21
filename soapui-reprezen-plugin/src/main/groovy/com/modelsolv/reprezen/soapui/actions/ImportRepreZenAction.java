@@ -47,7 +47,6 @@ public class ImportRepreZenAction extends AbstractSoapUIAction<WsdlProject> {
     }
 
     public void perform(final WsdlProject project, Object param) {
-        // initialize form
         if (dialog == null) {
             dialog = ADialogBuilder.buildDialog(Form.class);
         } else {
@@ -57,10 +56,8 @@ public class ImportRepreZenAction extends AbstractSoapUIAction<WsdlProject> {
 
         while (dialog.show()) {
             try {
-                // get the specified URL
                 String url = dialog.getValue(Form.REPREZEN_MODEL_PATH).trim();
                 if (StringUtils.hasContent(url)) {
-                    // expand any property-expansions
                     String expUrl = PathUtils.expandPath(url, project);
 
                     // if this is a file - convert it to a file URL
