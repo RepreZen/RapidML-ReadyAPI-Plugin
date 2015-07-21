@@ -20,6 +20,7 @@ import com.eviware.soapui.impl.rest.support.RestParameter;
 import com.eviware.soapui.impl.rest.support.RestParamsPropertyHolder;
 import com.eviware.soapui.impl.rest.support.RestParamsPropertyHolder.ParameterStyle;
 import com.eviware.soapui.impl.wsdl.WsdlProject
+import com.eviware.soapui.plugins.ApiImporter;
 import com.eviware.soapui.support.UISupport
 import com.eviware.soapui.support.types.StringToStringsMap
 import com.modelsolv.reprezen.restapi.HttpMessageParameterLocation;
@@ -35,6 +36,7 @@ import com.modelsolv.reprezen.restapi.TypedRequest;
 import com.modelsolv.reprezen.restapi.ZenModel
 import com.modelsolv.reprezen.restapi.libraries.util.PrimitiveTypes;
 import com.modelsolv.reprezen.restapi.xtext.XtextDslStandaloneSetup
+import com.eviware.soapui.plugins.PluginApiImporter;
 
 
 /**
@@ -42,7 +44,6 @@ import com.modelsolv.reprezen.restapi.xtext.XtextDslStandaloneSetup
  *
  * @author Tatiana Fesenko
  */
-
 class RepreZenImporter {
 
 	private static Logger logger = LoggerFactory.getLogger(RepreZenImporter.class)
