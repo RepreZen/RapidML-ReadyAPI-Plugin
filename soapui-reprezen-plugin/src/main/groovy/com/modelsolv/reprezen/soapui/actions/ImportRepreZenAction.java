@@ -56,18 +56,19 @@ public class ImportRepreZenAction extends AbstractSoapUIAction<WsdlProject> {
 
         while (dialog.show()) {
             try {
-                String path = dialog.getValue(Form.REPREZEN_MODEL_PATH).trim();
-                if (StringUtils.hasContent(path)) {
-                   // path = PathUtils.expandPath(path, project);
-                    File file = new File(path);
-					if (file.exists()) {
-						XProgressDialog dlg = UISupport.getDialogs()
-								.createProgressDialog("Importing RepreZen API model", 0, "", false);
-						dlg.run(new RepreZenImporterWorker(file, project));
-						Analytics.trackAction("ImportRepreZenModel");
-					} else {
-						throw new RuntimeException("File does not exist");
-					}
+                String url = dialog.getValue(Form.REPREZEN_MODEL_PATH).trim();
+                if (StringUtils.hasContent(url)) {
+                    String expUrl = PathUtils.expandPath(url, project);
+
+                    // if this is a file - convert it to a file URL
+                    if (new File(expUrl).exists())
+                        expUrl = new File(expUrl).toURI().toURL().toString();
+
+                    XProgressDialog dlg = UISupport.getDialogs().createProgressDialog("Importing API", 0, "", false);
+                    dlg.run(new RepreZenImporterWorker(expUrl, project));
+
+                    Analytics.trackAction("ImportRepreZenModel");
+                    break;
                 }
             } catch (Exception ex) {
                 UISupport.showErrorMessage(ex);
@@ -77,7 +78,7 @@ public class ImportRepreZenAction extends AbstractSoapUIAction<WsdlProject> {
 
     @AForm(name = "Import RepreZen model", description = "Creates a REST API from the specified RepreZen model")
     public interface Form {
-        @AField(name = "Select RepreZen model", description = "Location of RepreZen model (a *.zen or *.rml file)", type = AFieldType.FILE)
+        @AField(name = "Import RepreZen model", description = "Location or URL of RepreZen model", type = AFieldType.FILE)
         public final static String REPREZEN_MODEL_PATH = "Import RepreZen model";
  
      }

@@ -1,6 +1,5 @@
 package com.modelsolv.reprezen.soapui.actions;
 
-import java.io.File;
 import java.util.List;
 
 import com.eviware.soapui.analytics.Analytics;
@@ -13,18 +12,18 @@ import com.modelsolv.reprezen.soapui.RepreZenImporter;
 
 
 public class RepreZenImporterWorker extends Worker.WorkerAdapter {
-    private final File reprezenFile;
+    private final String finalExpUrl;
     private WsdlProject project;
 
-    public RepreZenImporterWorker(File reprezenFile, WsdlProject project) {
-        this.reprezenFile = reprezenFile;
+    public RepreZenImporterWorker(String finalExpUrl, WsdlProject project) {
+        this.finalExpUrl = finalExpUrl;
         this.project = project;
     }
 
     public Object construct(XProgressMonitor monitor) {
         try {
             RepreZenImporter importer = new RepreZenImporter(project);
-            List<RestService> restServices = importer.importZenModel(reprezenFile);
+            List<RestService> restServices = importer.importZenModel(finalExpUrl);
             RestService restService = null;
             if (!restServices.isEmpty()) {
                 UISupport.select(restServices.get(0));
@@ -35,6 +34,7 @@ public class RepreZenImporterWorker extends Worker.WorkerAdapter {
         } catch (Throwable e) {
             UISupport.showErrorMessage(e);
         }
+
         return null;
     }
 

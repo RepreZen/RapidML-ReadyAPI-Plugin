@@ -56,8 +56,9 @@ class RepreZenImporter {
 		this.project = project
 	}
 
-	public List<RestService> importZenModel(File file) {
-		logger.info("Importing RepreZen model [$file]")
+	public List<RestService> importZenModel(String url) {
+		File file = new File(new URL(url).toURI())
+		logger.info("Importing RepreZen model [$url]")
 		ZenModel zenModel = loadModel(file)
 		def List<RestService> result = zenModel.resourceAPIs.collect {
 			RestService restService = createRestService(it)
@@ -66,19 +67,13 @@ class RepreZenImporter {
 	}
 
 	private ZenModel loadModel(File file) {
-		XtextResource xtextResource;
-		ZenModel model;
-		try {
-			new XtextDslStandaloneSetup().createInjectorAndDoEMFRegistration();
-			XtextResourceSet resourceSet = new XtextResourceSet();
-			resourceSet.addLoadOption(XtextResource.OPTION_RESOLVE_ALL, Boolean.TRUE);
-			org.eclipse.emf.ecore.resource.Resource resource = resourceSet.getResource(
-					URI.createFileURI(file.getAbsolutePath()), true);
-			xtextResource = (XtextResource) resource;
-			model = (ZenModel) xtextResource.getContents().get(0);
-		} catch (Exception e) {
-			throw new RuntimeException("Error while loading a Zen model: " + e.getMessage());
-		}
+		new XtextDslStandaloneSetup().createInjectorAndDoEMFRegistration();
+		XtextResourceSet resourceSet = new XtextResourceSet();
+		resourceSet.addLoadOption(XtextResource.OPTION_RESOLVE_ALL, Boolean.TRUE);
+		org.eclipse.emf.ecore.resource.Resource resource = resourceSet.getResource(
+				URI.createFileURI(file.getAbsolutePath()), true);
+		XtextResource xtextResource = (XtextResource) resource;
+		ZenModel model = (ZenModel) xtextResource.getContents().get(0);
 		if (!xtextResource.getErrors().isEmpty()) {
 			for (Diagnostic error : xtextResource.getErrors()) {
 				System.err.println(error);
