@@ -39,57 +39,55 @@ import com.eviware.x.form.support.AForm;
  * @author Tatiana Fesenko
  */
 
-@PluginImportMethod( label = "RepreZen Model (REST)")
+@PluginImportMethod(label = "RepreZen Model (REST)")
 public class CreateRepreZenProjectAction extends AbstractSoapUIAction<WorkspaceImpl> {
-    private XFormDialog dialog;
+	private XFormDialog dialog;
 
-    public CreateRepreZenProjectAction() {
-        super("Import RepreZen Model", "Imports a RepreZen model into SoapUI");
-    }
+	public CreateRepreZenProjectAction() {
+		super("Import RepreZen Model", "Imports a RepreZen model into SoapUI");
+	}
 
-    public void perform(final WorkspaceImpl workspace, Object param) {
-        // initialize form
-        if (dialog == null) {
-            dialog = ADialogBuilder.buildDialog(Form.class);
-        } else {
-            dialog.setValue(Form.REPREZEN_MODEL_PATH, "");
-            dialog.setValue(Form.PROJECT_NAME, "");
-        }
+	public void perform(final WorkspaceImpl workspace, Object param) {
+		// initialize form
+		if (dialog == null) {
+			dialog = ADialogBuilder.buildDialog(Form.class);
+		} else {
+			dialog.setValue(Form.REPREZEN_MODEL_PATH, "");
+			dialog.setValue(Form.PROJECT_NAME, "");
+		}
 
-        WsdlProject project = null;
+		WsdlProject project = null;
 
-        while (dialog.show()) {
-            try {
-                // get the specified URL
-                String url = dialog.getValue(Form.REPREZEN_MODEL_PATH).trim();
-                if (StringUtils.hasContent(url)) {
-                    // expand any property-expansions
-                    project = workspace.createProject(dialog.getValue(Form.PROJECT_NAME));
-                    String expUrl = PathUtils.expandPath(url, project);
-
-                    // if this is a file - convert it to a file URL
-                    if (new File(expUrl).exists())
-                        expUrl = new File(expUrl).toURI().toURL().toString();
-
-                    XProgressDialog dlg = UISupport.getDialogs().createProgressDialog("Importing API", 0, "", false);
-                    dlg.run(new RepreZenImporterWorker(expUrl, project));
-
-                    Analytics.trackAction("ImportRepreZenModel");
-                    break;
-                }
-            } catch (Exception ex) {
-                UISupport.showErrorMessage(ex);
-            }
-        }
-    }
-
-    @AForm(name = "Import RepreZen model", description = "Creates a REST API from the specified RepreZen model")
-    public interface Form {
-        @AField(name = "Project Name", description = "Name of the project", type = AField.AFieldType.STRING)
-        public final static String PROJECT_NAME = "Project Name";
-        
-        @AField(name = "Import RepreZen model", description = "Location or URL of RepreZen model", type = AFieldType.FILE)
-        public final static String REPREZEN_MODEL_PATH = "Import RepreZen model";
+		while (dialog.show()) {
+			try {
+				// get the specified URL
+				String url = dialog.getValue(Form.REPREZEN_MODEL_PATH).trim();
+				if (StringUtils.hasContent(url)) {
+					// expand any property-expansions
+					project = workspace.createProject(dialog.getValue(Form.PROJECT_NAME));
+					//String url = PathUtils.expandPath(url, project);
  
-     }
+					File file = new File(url);
+					if (file.exists()) {
+						XProgressDialog dlg = UISupport.getDialogs().createProgressDialog("Importing API", 0, "",
+								false);
+						dlg.run(new RepreZenImporterWorker(file, project));
+						Analytics.trackAction("ImportRepreZenModel");
+					}
+				}
+			} catch (Exception ex) {
+				UISupport.showErrorMessage(ex.getMessage());
+			}
+		}
+	}
+
+	@AForm(name = "Import RepreZen model", description = "Creates a REST API from the specified RepreZen model")
+	public interface Form {
+		@AField(name = "Project Name", description = "Name of the project", type = AField.AFieldType.STRING)
+		public final static String PROJECT_NAME = "Project Name";
+
+		@AField(name = "Import RepreZen model", description = "Location or URL of RepreZen model", type = AFieldType.FILE)
+		public final static String REPREZEN_MODEL_PATH = "Import RepreZen model";
+
+	}
 }

@@ -27,7 +27,7 @@ class RepreZenImporterTest extends GroovyTestCase {
 	public static def RestService importRepreZen( def path ) {
 		WsdlProject project = new WsdlProject()
 		RepreZenImporter importer = new RepreZenImporter( project )
-		String uri = new File( "src/test/resources/" + path ).toURI().toURL().toString();
-		return importer.importZenModel(uri).get(0);
+		File file = new File( "src/test/resources/" + path );
+		return importer.importZenModel(file).get(0);
 	}
 }
