@@ -77,12 +77,12 @@ class RepreZenImporter {
 			xtextResource = (XtextResource) resource;
 			model = (ZenModel) xtextResource.getContents().get(0);
 		} catch (Exception e) {
-			throw new RepreZenImporterException("Error while loading a Zen model: " + e.getMessage());
+			throw new RuntimeException("Error while loading a Zen model: " + e.getMessage());
 		}
 		if (!xtextResource.getErrors().isEmpty()) {
 			for (Diagnostic error : xtextResource.getErrors()) {
 				System.err.println(error);
-				throw new RepreZenImporterException("Selected RepreZen model contains errors: " + error.message)
+				throw new RuntimeException("Selected RepreZen model contains errors: " + error.message)
 			}
 		}
 		return model;

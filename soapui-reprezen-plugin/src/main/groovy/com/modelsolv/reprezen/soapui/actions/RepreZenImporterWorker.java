@@ -1,6 +1,5 @@
 package com.modelsolv.reprezen.soapui.actions;
 
-import java.awt.Dimension;
 import java.io.File;
 import java.util.List;
 
@@ -34,9 +33,10 @@ public class RepreZenImporterWorker extends Worker.WorkerAdapter {
             Analytics.trackAction("ImportRepreZen");
             return restService;
         } catch (Throwable e) {
-			UISupport.showExtendedInfo("Error", "An error of type occured.", e.toString(), new Dimension(200, 50));
+            UISupport.showErrorMessage(e);
         }
         return null;
     }
+
  
 }
