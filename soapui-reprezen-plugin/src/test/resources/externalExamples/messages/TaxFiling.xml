@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TaxFiling version="1.0">
+  <filingID>#123456</filingID>
+  <taxpayer>ssn-xx-xxxx</taxpayer>
+  <jurisdiction>PA0010000</jurisdiction>
+  <year>2014</year>
+  <period></period>
+  <currency>USD</currency>
+  <grossIncome>64,000.00</grossIncome>
+  <taxLiability>19,200.00</taxLiability>
+</TaxFiling>

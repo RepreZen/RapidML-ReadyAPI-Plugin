@@ -18,8 +18,20 @@ class RepreZenImporterTest extends GroovyTestCase {
 		assertFalse("Expecting at least one resource to be generated", resources.isEmpty())
 	}
 
-	public void testTaxBlasterWithExamples() {
+	public void testInlineExamples() {
 		RestService restService = importRepreZen("TaxBlasterWithExamples.zen")
+		def Map<String, RestResource> resources = restService.getResources()
+		assertFalse("Expecting at least one resource to be generated", resources.isEmpty())
+	}
+
+	public void testExternalExamples() {
+		RestService restService = importRepreZen("externalExamples/TaxBlasterWithExternalExamples.zen")
+		def Map<String, RestResource> resources = restService.getResources()
+		assertFalse("Expecting at least one resource to be generated", resources.isEmpty())
+	}
+
+	public void testDataModelImport() {
+		RestService restService = importRepreZen("dataModelImport/TaxBlaster.zen")
 		def Map<String, RestResource> resources = restService.getResources()
 		assertFalse("Expecting at least one resource to be generated", resources.isEmpty())
 	}

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Person version="1.0">
+  <taxpayerID>ssn-xx-xxxx</taxpayerID>
+  <lastName>Orwell</lastName>
+  <firstName>George</firstName>
+  <otherNames>Eric Arthur Blair</otherNames>
+</Person>
