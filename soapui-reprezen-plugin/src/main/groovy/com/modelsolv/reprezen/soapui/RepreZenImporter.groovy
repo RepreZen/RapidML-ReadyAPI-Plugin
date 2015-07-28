@@ -4,6 +4,7 @@ import org.apache.xmlbeans.XmlBoolean
 import org.apache.xmlbeans.XmlDate
 import org.apache.xmlbeans.XmlDouble
 import org.apache.xmlbeans.XmlInteger
+import org.apache.xmlbeans.XmlString;
 import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.ecore.resource.Resource.Diagnostic
 import org.eclipse.xtext.resource.XtextResource
@@ -60,6 +61,7 @@ class RepreZenImporter {
 		File file = new File(new URL(url).toURI())
 		logger.info("Importing RepreZen model [$url]")
 		ZenModel zenModel = loadModel(file)
+		zenModel.generateImplicitValues()
 		def List<RestService> result = zenModel.resourceAPIs.collect {
 			RestService restService = createRestService(it)
 		}
@@ -144,24 +146,38 @@ class RepreZenImporter {
 		}
 	}
 
-	private List<RestRepresentation> createMethodRepresentations(RestMethod soapUiMethod, TypedMessage rapidMessage, RestRepresentation.Type type) {
-		rapidMessage.allExamples.collect { example ->
-			def RestRepresentation representation = soapUiMethod.addNewRepresentation(type)
-			representation.description = rapidMessage.documentation?.text
-			if (!rapidMessage.mediaTypes.isEmpty()) {
-				representation.mediaType = rapidMessage.mediaTypes.get(0).name
-			}
-			representation.sampleContent = example.body;
-			representation
-		}
-	}
-
 	private createResponses(RestMethod soapUiMethod, Method rapidMethod) {
 		rapidMethod.responses.each{rapidResponse->
 			def List<RestRepresentation> soapUiResponses = createMethodRepresentations(soapUiMethod, rapidResponse,
 					rapidResponse.statusCode < 400 ? RestRepresentation.Type.RESPONSE : RestRepresentation.Type.FAULT)
-			soapUiResponses.each{it.status = [rapidResponse.statusCode]}
+			soapUiResponses.each{
+				it.status = [rapidResponse.statusCode];
+			}
 		}
+	}
+	
+	private List<RestRepresentation> createMethodRepresentations(RestMethod soapUiMethod, TypedMessage rapidMessage, RestRepresentation.Type type) {
+		if (!rapidMessage.mediaTypes.isEmpty()) {
+			rapidMessage.mediaTypes.collect { mediaType ->
+				def RestRepresentation representation = createMethodRepresentation(soapUiMethod, rapidMessage, type)
+				representation.mediaType = mediaType.name
+				if (!rapidMessage.getAllExamples().isEmpty()) {
+					representation.sampleContent = rapidMessage.getAllExamples().get(0).body;
+				}
+				representation
+			}
+		} else [
+				createMethodRepresentation(soapUiMethod, rapidMessage, type)
+			]
+	}
+	
+	private RestRepresentation createMethodRepresentation(RestMethod soapUiMethod, TypedMessage rapidMessage, RestRepresentation.Type type) {
+		def RestRepresentation representation = soapUiMethod.addNewRepresentation(type)
+		representation.description = rapidMessage.documentation?.text
+		if (!rapidMessage.mediaTypes.isEmpty()) {
+			representation.mediaType = rapidMessage.mediaTypes.get(0).name
+		}
+		representation
 	}
 
 	private RestParameter createParamFromNamedProperty(RestParamsPropertyHolder soapUiParams, Parameter rapidParameter) {
@@ -177,6 +193,7 @@ class RepreZenImporter {
 			case PrimitiveTypes.INTEGER: param.type = XmlInteger.type.name; break;
 			case PrimitiveTypes.DATE: param.type = XmlDate.type.name; break;
 			case PrimitiveTypes.BOOLEAN: param.type = XmlBoolean.type.name; break;
+			case PrimitiveTypes.STRING: param.type = XmlString.type.name; break;
 		}
 		return param
 	}
