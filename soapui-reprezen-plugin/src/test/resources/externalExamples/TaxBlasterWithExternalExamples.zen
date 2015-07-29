@@ -84,7 +84,7 @@ zenModel TaxBlaster
 
 			method PUT putPersonObject
 				request PersonObject
-				response statusCode 200
+				response PersonObject statusCode 200
 				response statusCode 400
 
 			// Resource level example (external file) for Person type.

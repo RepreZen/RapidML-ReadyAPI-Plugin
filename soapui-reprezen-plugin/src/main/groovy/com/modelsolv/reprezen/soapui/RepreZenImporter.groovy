@@ -166,11 +166,15 @@ class RepreZenImporter {
 				}
 				representation
 			}
-		} else [
-				createMethodRepresentation(soapUiMethod, rapidMessage, type)
-			]
+		} else {
+			def RestRepresentation representation = createMethodRepresentation(soapUiMethod, rapidMessage, type)
+			if (!rapidMessage.getAllExamples().isEmpty()) {
+				representation.sampleContent = rapidMessage.getAllExamples().get(0).body;
+			}
+			[representation]
+		}
 	}
-	
+
 	private RestRepresentation createMethodRepresentation(RestMethod soapUiMethod, TypedMessage rapidMessage, RestRepresentation.Type type) {
 		def RestRepresentation representation = soapUiMethod.addNewRepresentation(type)
 		representation.description = rapidMessage.documentation?.text
