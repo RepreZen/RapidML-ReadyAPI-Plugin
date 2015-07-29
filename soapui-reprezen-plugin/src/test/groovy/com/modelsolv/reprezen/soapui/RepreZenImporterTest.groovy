@@ -11,9 +11,16 @@ import com.modelsolv.reprezen.restapi.HTTPMethods;
 
 
 class RepreZenImporterTest extends GroovyTestCase {
+	RestService restService;
 
-	public void testTaxBlaster() {
-		RestService restService = importRepreZen("TaxBlaster.zen")
+	protected void setUp() {
+		restService = importRepreZen("TaxBlaster.zen")
+	}
+	protected void tearDown() {
+		restService = null
+	}
+
+	public void testResources() {
 		def Map<String, RestResource> resources = restService.getResources()
 		assert resources.size() == 5
 		assert resources.values().collect{it.name} as Set == [
@@ -34,35 +41,37 @@ class RepreZenImporterTest extends GroovyTestCase {
 		RestParameter idParam = objectResource.params.get("id")
 		assert idParam.description == "taxpayerID of the requested Person "
 		assert idParam.type.getLocalPart() == "string"
+	}
+
+	public void testObjectResource() {
+		def Map<String, RestResource> resources = restService.getResources()
+		RestResource objectResource = resources.get("/people/{id}")
+		assert objectResource.description == "An individual user by ID. "
+
+		RestParameter idParam = objectResource.params.get("id")
+		assert idParam.description == "taxpayerID of the requested Person "
+		assert idParam.type.getLocalPart() == "string"
 
 		assert objectResource.methods.collect{it.name} == [
 			"getPersonObject",
 			"putPersonObject"
 		]
+	}
 
-		//		/** An individual user by ID. */
-		//		objectResource PersonObject type Person
-		//			URI people/{id}
-		//				/** taxpayerID of the requested Person */
-		//				required templateParam id property taxpayerID
-		//
-		//			mediaTypes
-		//				application/xml
-		//			method GET getPersonObject
-		//				request
-		//				response PersonObject statusCode 200
-		//
-		//			method PUT putPersonObject
-		//				request PersonObject
-		//				response statusCode 200
-		//				response statusCode 400
+	public void testGetMethod() {
+		def Map<String, RestResource> resources = restService.getResources()
+		RestResource objectResource = resources.get("/people/{id}")
 
 		RestMethod getMethod = objectResource.methods.find {it.name == "getPersonObject"}
 		assert getMethod.method.name() == "GET"
 		RestRepresentation response = getMethod.getRepresentations(RestRepresentation.Type.RESPONSE, "application/xml")[0]
 		assert response != null
 		assert response.getStatus() == [200]
+	}
 
+	public void testPutMethod() {
+		def Map<String, RestResource> resources = restService.getResources()
+		RestResource objectResource = resources.get("/people/{id}")
 		RestMethod putMethod = objectResource.methods.find {it.name == "putPersonObject"}
 		def RestRequest request = objectResource.getRequestAt(0)
 		assert request.mediaType == "application/xml"
@@ -74,24 +83,6 @@ class RepreZenImporterTest extends GroovyTestCase {
 		assert response400 != null
 		assert response400.type == RestRepresentation.Type.FAULT
 		assert response400.getStatus() == [400]
-	}
-
-	public void testInlineExamples() {
-		RestService restService = importRepreZen("TaxBlasterWithExamples.zen")
-		def Map<String, RestResource> resources = restService.getResources()
-		assert resources.size() == 5
-	}
-
-	public void testExternalExamples() {
-		RestService restService = importRepreZen("externalExamples/TaxBlasterWithExternalExamples.zen")
-		def Map<String, RestResource> resources = restService.getResources()
-		assert resources.size() == 2
-	}
-
-	public void testDataModelImport() {
-		RestService restService = importRepreZen("dataModelImport/TaxBlaster.zen")
-		def Map<String, RestResource> resources = restService.getResources()
-		assert resources.size() == 4
 	}
 
 	public static def RestService importRepreZen( def path ) {
