@@ -1,0 +1,35 @@
+zenModel TaxBlaster
+
+	dataModel DataModel
+	
+		structure TaxFiling
+			filingID : long
+			taxpayer : reference to Person
+			jurisdiction : string
+			year : int
+			period : int
+			currency : string
+			grossIncome : decimal
+			taxLiability : decimal
+			status : string
+
+		structure Person
+			taxpayerID : long
+			ssn: string
+			lastName : string
+			firstName : string
+			otherNames : string*
+			netWorth : decimal
+			netWorthSpecialValue : string
+			preferredLanguage : string
+			DOB : string
+			taxFilings : reference to TaxFiling*
+			addresses : containing Address*
+			
+		structure Address
+			street1 : string
+			street2 : string
+			city : string
+			stateOrProvince : string
+			postalCode : string
+			country : string

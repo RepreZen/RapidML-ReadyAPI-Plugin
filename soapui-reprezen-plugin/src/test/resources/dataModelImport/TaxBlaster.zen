@@ -1,4 +1,4 @@
-import TaxBlaster.DataModel from "https://raw.githubusercontent.com/ModelSolv/DemoData/master/TaxBlaster/models/TaxBlasterDataModel.zen" 
+import TaxBlaster.DataModel from "TaxBlasterDataModel.zen" 
 
 zenModel TaxBlaster
 
