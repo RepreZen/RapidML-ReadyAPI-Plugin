@@ -17,6 +17,8 @@ Note that Maven creates two jars, we need `soapui-reprezen-plugin/target/soapui-
 ### Questions
 * RAML generator (and some other generators) defines an API Importer class which extends  `com.eviware.soapui.plugins.ApiImporter` and has `com.eviware.soapui.plugins.PluginApiImporter` annotation. I created a similar `RepreZenApiImporter` for RepreZen, but I don't completely understand why we need it.
 
+(http://community.smartbear.com/t5/Ready-API-and-SoapUI-PlugIn/Purpose-of-PluginApiImporter-annotation/m-p/104035#U104035)
+
 * How can we specify a message schema (XSD or JSON schema) in Ready! API?
 
 
