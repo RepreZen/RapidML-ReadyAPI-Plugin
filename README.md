@@ -14,15 +14,14 @@ mvn clean install assembly:single
 ```
 Note that Maven creates two jars, we need `soapui-reprezen-plugin/target/soapui-reprezen-plugin-1.0-dist.jar` as it contains dependencies.
 
-### TODO
-* Move RepreZenImporter#loadModel(File) to the core RepreZen code for reuse. Similar code is used in `AbstractXtendGenTemplate#loadModel(File)`
-* Optimize File to string and string to File conversion for loading RepreZen model. 
-* Update label in `com.modelsolv.reprezen.soapui.PluginConfig`, it sais that the plugin provides "import/export functionality", but it only provides import
-
 ### Questions
 * RAML generator (and some other generators) defines an API Importer class which extends  `com.eviware.soapui.plugins.ApiImporter` and has `com.eviware.soapui.plugins.PluginApiImporter` annotation. I created a similar `RepreZenApiImporter` for RepreZen, but I don't completely understand why we need it.
 
 * How can we specify a message schema (XSD or JSON schema) in Ready! API?
+
+
+### TODO
+* Update label in `com.modelsolv.reprezen.soapui.PluginConfig`, it sais that the plugin provides "import/export functionality", but it only provides import
 
 ### Features
 Exporter (currently only Importer is implemented)
