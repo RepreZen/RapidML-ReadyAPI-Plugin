@@ -56,16 +56,16 @@ public class ImportRepreZenAction extends AbstractSoapUIAction<WsdlProject> {
 
         while (dialog.show()) {
             try {
-                String url = dialog.getValue(Form.REPREZEN_MODEL_PATH).trim();
-                if (StringUtils.hasContent(url)) {
-                    String expUrl = PathUtils.expandPath(url, project);
+                String zenModelUrl = dialog.getValue(Form.REPREZEN_MODEL_PATH).trim();
+                if (StringUtils.hasContent(zenModelUrl)) {
+                    String expandedZenModelUrl = PathUtils.expandPath(zenModelUrl, project);
 
                     // if this is a file - convert it to a file URL
-                    if (new File(expUrl).exists())
-                        expUrl = new File(expUrl).toURI().toURL().toString();
+                    if (new File(expandedZenModelUrl).exists())
+                        expandedZenModelUrl = new File(expandedZenModelUrl).toURI().toURL().toString();
 
                     XProgressDialog dlg = UISupport.getDialogs().createProgressDialog("Importing API", 0, "", false);
-                    dlg.run(new RepreZenImporterWorker(expUrl, project));
+                    dlg.run(new RepreZenImporterWorker(expandedZenModelUrl, project));
 
                     Analytics.trackAction("ImportRepreZenModel");
                     break;
