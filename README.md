@@ -15,7 +15,7 @@ mvn clean install assembly:single
 Note that Maven creates two jars, we need `soapui-reprezen-plugin/target/soapui-reprezen-plugin-1.0-dist.jar` as it contains dependencies.
 
 ### TODO
-* Move RepreZenImporter#importZenModel() to the core RepreZen code for reuse
+* Move RepreZenImporter#loadModel(File) to the core RepreZen code for reuse
 * Optimize File to string and string to File conversion for loading RepreZen model. 
 * Update label in `com.modelsolv.reprezen.soapui.PluginConfig`, it sais that the plugin provides "import/export functionality", but it only provides import
 
