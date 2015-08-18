@@ -16,8 +16,7 @@ import com.modelsolv.reprezen.restapi.xtext.XtextDslStandaloneSetup;
 public class HeadlessZenModelLoader {
 
 	public static ZenModel loadModel(String fileUrl) throws MalformedURLException, URISyntaxException {
-		File file = new File(new URL(fileUrl).toURI());
-		return loadModel(file);
+		return loadModel(URI.createURI(new URL(fileUrl).toString()));
 	}
 
 	public static ZenModel loadModel(File file) {
