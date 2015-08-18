@@ -1,9 +1,6 @@
 package com.modelsolv.reprezen.soapui;
 
 import java.io.File;
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
-import java.net.URL;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -12,11 +9,12 @@ import org.eclipse.xtext.resource.XtextResourceSet;
 
 import com.modelsolv.reprezen.restapi.ZenModel;
 import com.modelsolv.reprezen.restapi.xtext.XtextDslStandaloneSetup;
+import com.modelsolv.reprezen.restapi.xtext.loaders.RepreZenXtextResourceSet;
 
 public class HeadlessZenModelLoader {
 
-	public static ZenModel loadModel(String fileUrl) throws MalformedURLException, URISyntaxException {
-		return loadModel(URI.createURI(new URL(fileUrl).toString()));
+	public static ZenModel loadModel(String fileUrl) {
+		return loadModel(URI.createURI(fileUrl));
 	}
 
 	public static ZenModel loadModel(File file) {
@@ -42,7 +40,7 @@ public class HeadlessZenModelLoader {
 
 	public static XtextResource loadXtextResource(URI modelUri) {
 		new XtextDslStandaloneSetup().createInjectorAndDoEMFRegistration();
-		XtextResourceSet resourceSet = new XtextResourceSet();
+		XtextResourceSet resourceSet = new RepreZenXtextResourceSet();
 		resourceSet.addLoadOption(XtextResource.OPTION_RESOLVE_ALL, Boolean.TRUE);
 		org.eclipse.emf.ecore.resource.Resource resource = resourceSet.getResource(modelUri, true);
 		return (XtextResource) resource;
