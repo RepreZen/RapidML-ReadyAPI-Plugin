@@ -58,31 +58,13 @@ class RepreZenImporter {
 	}
 
 	public List<RestService> importZenModel(String url) {
-		File file = new File(new URL(url).toURI())
 		logger.info("Importing RepreZen model [$url]")
-		ZenModel zenModel = loadModel(file)
+		ZenModel zenModel = HeadlessZenModelLoader.loadModel(url)
 		zenModel.generateImplicitValues()
 		def List<RestService> result = zenModel.resourceAPIs.collect {
 			RestService restService = createRestService(it)
 		}
 		result
-	}
-
-	private ZenModel loadModel(File file) {
-		new XtextDslStandaloneSetup().createInjectorAndDoEMFRegistration();
-		XtextResourceSet resourceSet = new XtextResourceSet();
-		resourceSet.addLoadOption(XtextResource.OPTION_RESOLVE_ALL, Boolean.TRUE);
-		org.eclipse.emf.ecore.resource.Resource resource = resourceSet.getResource(
-				URI.createFileURI(file.getAbsolutePath()), true);
-		XtextResource xtextResource = (XtextResource) resource;
-		ZenModel model = (ZenModel) xtextResource.getContents().get(0);
-		if (!xtextResource.getErrors().isEmpty()) {
-			for (Diagnostic error : xtextResource.getErrors()) {
-				System.err.println(error);
-				throw new RuntimeException("Selected RepreZen model contains errors: " + error.message)
-			}
-		}
-		return model;
 	}
 
 	private RestService createRestService(ResourceAPI resourceAPI) {
