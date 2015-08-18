@@ -21,6 +21,8 @@ Note that Maven creates two jars, we need `soapui-reprezen-plugin/target/soapui-
 
 * How can we specify a message schema (XSD or JSON schema) in Ready! API?
 
+(http://community.smartbear.com/t5/Ready-API-and-SoapUI-PlugIn/Message-Payload-Schema/m-p/104037#U104037)
+
 
 ### TODO
 * Update label in `com.modelsolv.reprezen.soapui.PluginConfig`, it sais that the plugin provides "import/export functionality", but it only provides import
