@@ -18,8 +18,8 @@ public class RepreZenApiImporter implements ApiImporter {
         List<Interface> result = new ArrayList<>();
         int cnt = project.getInterfaceCount();
 
-        ImportRepreZenAction importRamlAction = new ImportRepreZenAction();
-        importRamlAction.perform( (WsdlProject)project, null );
+        ImportRepreZenAction importRepreZenAction = new ImportRepreZenAction();
+        importRepreZenAction.perform( (WsdlProject)project, null );
 
         for( int c = cnt; c < project.getInterfaceCount(); c++)
         {

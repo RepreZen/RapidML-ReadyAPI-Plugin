@@ -11,6 +11,11 @@ import com.modelsolv.reprezen.restapi.ZenModel;
 import com.modelsolv.reprezen.restapi.xtext.XtextDslStandaloneSetup;
 import com.modelsolv.reprezen.restapi.xtext.loaders.RepreZenXtextResourceSet;
 
+/**
+ * 
+ * @author Tatiana Fesenko
+ *
+ */
 public class HeadlessZenModelLoader {
 
 	public static ZenModel loadModel(String fileUrl) {
