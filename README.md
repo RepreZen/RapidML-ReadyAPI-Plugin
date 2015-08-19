@@ -5,6 +5,7 @@ RepreZen API Studio plugin for SoapUI
 
 Use the "Plugin Manager" button in Ready!API 1.3.1 to load the jar created by Maven build using the "Load plugin from file" button. 
 
+Both importer and exporter are implemented. Note that the export action is available on the RestResource, not the project inself.
 ### Build it yourself
 
 Clone the Git repository, make sure you have maven installed, and run
@@ -23,9 +24,4 @@ Note that Maven creates two jars, we need `soapui-reprezen-plugin/target/soapui-
 
 (http://community.smartbear.com/t5/Ready-API-and-SoapUI-PlugIn/Message-Payload-Schema/m-p/104037#U104037)
 
-
-### TODO
-* Update label in `com.modelsolv.reprezen.soapui.PluginConfig`, it sais that the plugin provides "import/export functionality", but it only provides import
-
-### Features
-Exporter (currently only Importer is implemented)
+Some remaining issues are marked with "TODO" in the exporter
