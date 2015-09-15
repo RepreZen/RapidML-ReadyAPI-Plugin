@@ -112,8 +112,12 @@ class RepreZenImporter {
 		if (rapidMethod.request != null) {
 			def TypedRequest rapidRequest= rapidMethod.request
 			createMethodRepresentations(soapUiMethod, rapidRequest, RestRepresentation.Type.REQUEST)
-			if (rapidRequest.mediaTypes.size() > 0) {
-				rapidRequest.mediaTypes.each {MediaType mediaType ->
+			def List<MediaType> mediaTypes = rapidRequest.mediaTypes
+//			if (mediaTypes.isEmpty()) {
+//				mediaTypes = rapidMethod.getContainingResourceDefinition().getMediaTypes()
+//			}
+			if (mediaTypes.size() > 0) {
+				mediaTypes.each {MediaType mediaType ->
 					def RestRequest soapUiRequest = soapUiMethod.addNewRequest("Request " + mediaType.name)
 					soapUiRequest.accept = mediaType.name
 					rapidRequest.parameters.each {param ->
@@ -169,7 +173,7 @@ class RepreZenImporter {
 
 	private RestParameter createParamFromNamedProperty(RestParamsPropertyHolder soapUiParams, Parameter rapidParameter) {
 		RestParameter param = soapUiParams.addProperty(rapidParameter.name)
-
+def style = getParameterStyle(rapidParameter)
 		param.style = getParameterStyle(rapidParameter)
 		param.description = rapidParameter.documentation?.text
 		param.defaultValue = rapidParameter.default
@@ -194,7 +198,7 @@ class RepreZenImporter {
 	}
 
 	private ParameterStyle getParameterStyle(MessageParameter rapidParameter) {
-		switch (rapidParameter.type) {
+		switch (rapidParameter.httpLocation) {
 			case HttpMessageParameterLocation.HEADER: return ParameterStyle.HEADER
 			case HttpMessageParameterLocation.QUERY: return ParameterStyle.QUERY
 		}
