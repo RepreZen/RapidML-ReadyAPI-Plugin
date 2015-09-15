@@ -15,6 +15,10 @@ import com.eviware.x.form.support.AField;
 import com.eviware.x.form.support.AForm;
 import com.modelsolv.reprezen.soapui.RepreZenExporter;
 
+/**
+ * @author <a href="mailto:tatiana.fesenko@reprezen.com">Tatiana Fesenko</a>
+ *
+ */
 @ActionConfiguration( actionGroup = "RestServiceActions", afterAction = "ExportWadlAction", separatorBefore = true )
 public class ExportRepreZenAction extends AbstractSoapUIAction<RestService>
 {
@@ -50,7 +54,7 @@ public class ExportRepreZenAction extends AbstractSoapUIAction<RestService>
             {
                 RepreZenExporter exporter = new RepreZenExporter( restService.getProject() );
 
-                String zenModel = exporter.createRepreZen( dialog.getValue(Form.TITLE), restService,
+                String zenModel = exporter.createRepreZenAsText( dialog.getValue(Form.TITLE), restService,
                         dialog.getValue(Form.BASEURI));
 
 

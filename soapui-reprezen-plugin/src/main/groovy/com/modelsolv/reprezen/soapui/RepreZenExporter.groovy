@@ -67,32 +67,32 @@ class RepreZenExporter {
 		this.project = project
 	}
 
-	String createRepreZen(String name, RestService service, String baseUri) {
-
-		ZenModel zenModel = restapiFactory.createZenModel()
-
-		zenModel.name = normalize(name)
-
-		ResourceAPI resourceAPI = restapiFactory.createResourceAPI();
-		resourceAPI.name = normalize(name)
-		resourceAPI.baseURI = baseUri
-		zenModel.resourceAPIs.add(resourceAPI)
-
-		exportRestService( service, resourceAPI)
-
+	def String createRepreZenAsText(String name, RestService service, String baseUri) {
+		ZenModel zenModel = createRepreZen(name, service, baseUri)
 		RepreZenTextSerializer serializer = new RepreZenTextSerializer()
 		new XtextDslStandaloneSetup().createInjectorAndDoEMFRegistration().injectMembers(serializer)
 		return serializer.serializeToDslString(zenModel)
 	}
 
-	def exportRestService(RestService restService, ResourceAPI resourceAPI) {
+	def ZenModel createRepreZen(String name, RestService service, String baseUri) {
+		ZenModel zenModel = restapiFactory.createZenModel()
+		zenModel.name = normalize(name)
+		ResourceAPI resourceAPI = restapiFactory.createResourceAPI();
+		resourceAPI.name = normalize(name)
+		resourceAPI.baseURI = baseUri
+		zenModel.resourceAPIs.add(resourceAPI)
+		exportRestService( service, resourceAPI)
+		return zenModel
+	}
+
+	private def exportRestService(RestService restService, ResourceAPI resourceAPI) {
 		restService.resourceList.each {
 			def ResourceDefinition res = createResourceDefinition( it, resourceAPI )
 			resourceAPI.ownedResourceDefinitions.add(res)
 		}
 	}
 
-	def ResourceDefinition createResourceDefinition( RestResource resource, ResourceAPI resourceAPI ) {
+	private def ResourceDefinition createResourceDefinition( RestResource resource, ResourceAPI resourceAPI ) {
 		ServiceDataResource result = restapiFactory.createObjectResource()
 		result.name = normalize(resource.name)
 		if( hasContent(resource.description))
@@ -136,7 +136,7 @@ class RepreZenExporter {
 		return result
 	}
 
-	def createMethod( RestMethod restMethod, ResourceAPI resourceAPI ) {
+	private def createMethod( RestMethod restMethod, ResourceAPI resourceAPI ) {
 		Method result = restapiFactory.createMethod()
 		result.id = normalize(restMethod.name)
 		result.setHttpMethod(HTTPMethods.valueOf(restMethod.method.name().toUpperCase()))
@@ -180,24 +180,24 @@ class RepreZenExporter {
 		return result
 	}
 
-	def createQueryParameter( RestParameter p ) {
+	private def createQueryParameter( RestParameter p ) {
 		MessageParameter zenParameter = restapiFactory.createMessageParameter();
 		zenParameter.setHttpLocation(HttpMessageParameterLocation.QUERY)
 		return setDefaultParameterProperties(p, zenParameter)
 	}
 
-	def createHeaderParameter( RestParameter p ) {
+	private def createHeaderParameter( RestParameter p ) {
 		MessageParameter zenParameter = restapiFactory.createMessageParameter();
 		zenParameter.setHttpLocation(HttpMessageParameterLocation.HEADER)
 		return setDefaultParameterProperties(p, zenParameter)
 	}
 
-	def URIParameter createUriParameter(RestParameter p ) {
+	private def URIParameter createUriParameter(RestParameter p ) {
 		URIParameter result = setDefaultParameterProperties(p, restapiFactory.createTemplateParameter())
 		return result
 	}
 
-	public def setDefaultParameterProperties(RestParameter p, Parameter result) {
+	private def setDefaultParameterProperties(RestParameter p, Parameter result) {
 		result.required = p.required
 
 		if (hasContent(p.defaultValue))
@@ -209,15 +209,15 @@ class RepreZenExporter {
 		return result
 	}
 
-	def String normalize(String nodeName) {
+	private def String normalize(String nodeName) {
 		return escape(nodeName);
 	}
 
-	def String escape(String nodeName) {
+	private def String escape(String nodeName) {
 		return nodeName.replaceAll("/", "_").replaceAll("\\.", "_").replaceAll("-", "_").replaceAll(" ", "_");
 	}
 
-	def addDocumentation(Documentable documentable, String documentationValue) {
+	private def addDocumentation(Documentable documentable, String documentationValue) {
 		def result = restapiFactory.createDocumentation
 		// Trim is essential here. A leading whitespace causes a
 		// "All 0 values of<...> have been consumed. More are needed to continue here." error

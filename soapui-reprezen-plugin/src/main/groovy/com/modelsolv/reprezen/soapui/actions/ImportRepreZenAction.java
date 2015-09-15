@@ -21,7 +21,6 @@ import com.eviware.x.form.support.AForm;
  *
  * @author <a href="mailto:tatiana.fesenko@reprezen.com">Tatiana Fesenko</a>
  */
-
 @ActionConfiguration( actionGroup = "EnabledWsdlProjectActions", afterAction = "AddWadlAction")
 public class ImportRepreZenAction extends AbstractSoapUIAction<WsdlProject> {
     private XFormDialog dialog;

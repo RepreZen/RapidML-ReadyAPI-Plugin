@@ -200,15 +200,15 @@ class RepreZenImporter {
 		}
 	}
 
-	public void setCreateSampleRequests(boolean createSampleRequests) {
+	private void setCreateSampleRequests(boolean createSampleRequests) {
 		this.createSampleRequests = createSampleRequests;
 	}
 
-	public void setRestMockService(RestMockService restMockService) {
+	private void setRestMockService(RestMockService restMockService) {
 		this.restMockService = restMockService;
 	}
 
-	def private methodName(Method method) {
+	private String methodName(Method method) {
 		if (method.id == null || !method.id.trim().isEmpty())
 			method.httpMethod.toString().toLowerCase() + method.containingResourceDefinition.name
 		else

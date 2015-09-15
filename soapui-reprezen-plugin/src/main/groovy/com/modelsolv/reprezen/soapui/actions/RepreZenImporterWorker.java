@@ -10,7 +10,10 @@ import com.eviware.x.dialogs.Worker;
 import com.eviware.x.dialogs.XProgressMonitor;
 import com.modelsolv.reprezen.soapui.RepreZenImporter;
 
-
+/**
+ * @author <a href="mailto:tatiana.fesenko@reprezen.com">Tatiana Fesenko</a>
+ *
+ */
 public class RepreZenImporterWorker extends Worker.WorkerAdapter {
     private final String zenModelUrl;
     private WsdlProject project;
@@ -37,6 +40,5 @@ public class RepreZenImporterWorker extends Worker.WorkerAdapter {
 
         return null;
     }
-
  
 }

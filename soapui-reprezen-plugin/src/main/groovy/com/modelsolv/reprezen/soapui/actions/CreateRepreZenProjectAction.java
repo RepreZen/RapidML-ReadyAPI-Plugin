@@ -22,7 +22,6 @@ import com.eviware.x.form.support.AForm;
  *
  * @author <a href="mailto:tatiana.fesenko@reprezen.com">Tatiana Fesenko</a>
  */
-
 @PluginImportMethod( label = "RepreZen Model (REST)")
 public class CreateRepreZenProjectAction extends AbstractSoapUIAction<WorkspaceImpl> {
     private XFormDialog dialog;

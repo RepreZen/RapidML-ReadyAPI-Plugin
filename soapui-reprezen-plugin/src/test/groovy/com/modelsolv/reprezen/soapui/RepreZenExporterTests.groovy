@@ -12,42 +12,40 @@ import com.eviware.soapui.impl.wsdl.WsdlProject
 
 class RepreZenExporterTests extends GroovyTestCase {
 
-    public void testExport()
-    {
-        WsdlProject project = new WsdlProject()
-        RestService restService = project.addNewInterface( "Test API", RestServiceFactory.REST_TYPE)
-        restService.setBasePath( "/api/{version}" )
+	public void testExport() {
+		WsdlProject project = new WsdlProject()
+		RestService restService = project.addNewInterface( "Test API", RestServiceFactory.REST_TYPE)
+		restService.setBasePath( "/api/{version}" )
 
-        RestResource resource = restService.addNewResource( "Cars", "/cars")
-        resource.addProperty( "version").style = RestParamsPropertyHolder.ParameterStyle.TEMPLATE
+		RestResource resource = restService.addNewResource( "Cars", "/cars")
+		resource.addProperty( "version").style = RestParamsPropertyHolder.ParameterStyle.TEMPLATE
 
-        resource = resource.addNewChildResource( "Car", "{make}" )
-        resource.addProperty( "make").style = RestParamsPropertyHolder.ParameterStyle.TEMPLATE
+		resource = resource.addNewChildResource( "Car", "{make}" )
+		resource.addProperty( "make").style = RestParamsPropertyHolder.ParameterStyle.TEMPLATE
 
-        RestMethod method = resource.addNewMethod( "Get Car")
-        method.setMethod( RestRequestInterface.HttpMethod.GET )
-        RestRepresentation representation = method.addNewRepresentation( RestRepresentation.Type.RESPONSE )
-        representation.mediaType = "application/json"
-        representation.status = [200]
+		RestMethod method = resource.addNewMethod( "Get Car")
+		method.setMethod( RestRequestInterface.HttpMethod.GET )
+		RestRepresentation representation = method.addNewRepresentation( RestRepresentation.Type.RESPONSE )
+		representation.mediaType = "application/json"
+		representation.status = [200]
 
-        method = resource.addNewMethod( "Create Car")
-        method.setMethod( RestRequestInterface.HttpMethod.POST )
-        representation = method.addNewRepresentation( RestRepresentation.Type.REQUEST )
-        representation.mediaType = "application/json"
-        representation = method.addNewRepresentation( RestRepresentation.Type.RESPONSE )
-        representation.mediaType = "application/json"
-        representation.status = [200]
+		method = resource.addNewMethod( "Create Car")
+		method.setMethod( RestRequestInterface.HttpMethod.POST )
+		representation = method.addNewRepresentation( RestRepresentation.Type.REQUEST )
+		representation.mediaType = "application/json"
+		representation = method.addNewRepresentation( RestRepresentation.Type.RESPONSE )
+		representation.mediaType = "application/json"
+		representation.status = [200]
 
-        RestRequest request = method.addNewRequest( "Test");
-        request.mediaType = "application/json"
-        request.requestContent = "{ \"test\" : \"value\" }"
+		RestRequest request = method.addNewRequest( "Test");
+		request.mediaType = "application/json"
+		request.requestContent = "{ \"test\" : \"value\" }"
 
-        RepreZenExporter exporter = new RepreZenExporter( project )
-        String str = exporter.createRepreZen( restService.name, restService, restService.getBasePath())
+		RepreZenExporter exporter = new RepreZenExporter( project )
+		String modelText = exporter.createRepreZenAsText( restService.name, restService, restService.getBasePath())
 
-        Console.println( str )
+		Console.println( modelText )
 
-        assertNotNull( str )
-
-    }
+		assertNotNull modelText
+	}
 }
