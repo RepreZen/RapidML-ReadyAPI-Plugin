@@ -38,6 +38,7 @@ import com.modelsolv.reprezen.restapi.TypedRequest
 import com.modelsolv.reprezen.restapi.ZenModel
 import com.modelsolv.reprezen.restapi.libraries.util.PrimitiveTypes
 import com.modelsolv.reprezen.restapi.xtext.XtextDslStandaloneSetup
+import com.modelsolv.reprezen.restapi.xtext.loaders.HeadlessZenModelLoader;
 
 
 /**
@@ -59,7 +60,7 @@ class RepreZenImporter {
 
 	public List<RestService> importZenModel(String url) {
 		logger.info("Importing RepreZen model [$url]")
-		ZenModel zenModel = HeadlessZenModelLoader.loadModel(url)
+		ZenModel zenModel = HeadlessZenModelLoader.loadModel(URI.createURI(url))
 		zenModel.generateImplicitValues()
 		def List<RestService> result = zenModel.resourceAPIs.collect {
 			RestService restService = createRestService(it)

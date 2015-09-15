@@ -43,7 +43,8 @@ import com.modelsolv.reprezen.restapi.datatypes.DatatypesFactory
 import com.modelsolv.reprezen.restapi.datatypes.PrimitiveType
 import com.modelsolv.reprezen.restapi.xtext.RestApiXtextPlugin;
 import com.modelsolv.reprezen.restapi.xtext.XtextDslStandaloneSetup
-import com.modelsolv.reprezen.restapi.xtext.loaders.DslRestModelLoader;
+import com.modelsolv.reprezen.restapi.xtext.loaders.MediaTypeRegistry;
+import com.modelsolv.reprezen.restapi.xtext.loaders.PrimitiveTypeRegistry;
 import com.modelsolv.reprezen.restapi.xtext.loaders.RestModelLoader;
 import com.modelsolv.reprezen.restapi.xtext.loaders.ZenLibraries;
 import com.modelsolv.reprezen.restapi.xtext.serializers.RepreZenTextSerializer;
