@@ -13,6 +13,7 @@ import com.eviware.soapui.impl.rest.RestResource
 import com.eviware.soapui.impl.rest.RestService
 import com.eviware.soapui.impl.rest.support.RestParameter
 import com.eviware.soapui.impl.rest.support.RestParamsPropertyHolder
+import com.eviware.soapui.impl.rest.support.RestParamsPropertyHolder.ParameterStyle;
 import com.eviware.soapui.impl.wsdl.WsdlProject
 import com.eviware.soapui.model.testsuite.TestProperty;
 import com.eviware.soapui.support.StringUtils
@@ -96,7 +97,7 @@ class RepreZenExporter {
 		ServiceDataResource result = restapiFactory.createObjectResource()
 		result.name = normalize(resource.name)
 		if( hasContent(resource.description))
-		addDocumentation(result, resource.description)
+			addDocumentation(result, resource.description)
 
 
 		URI uri = restapiFactory.createURI()
@@ -106,8 +107,8 @@ class RepreZenExporter {
 		resource.path.split("/").each {
 			String segment = it
 			URISegment uriSegment
-			RestParameter templateParam = templateParams.find{
-				param->"{"+param.name+"}" == segment
+			RestParameter templateParam = templateParams.find{ param->
+				"{"+param.name+"}" == segment
 			}
 			if (templateParam != null) {
 				uriSegment = restapiFactory.createURISegmentWithParameter()
@@ -122,7 +123,7 @@ class RepreZenExporter {
 					case "long": zenType = "long"; break
 					case "short":
 					case "int":
-					case "integer": zenType = "int"; break
+							case "integer": zenType = "int"; break
 					case "boolean": zenType = "boolean"; break
 					default: zenType = "string"
 				}
@@ -156,8 +157,6 @@ class RepreZenExporter {
 		result.id = normalize(restMethod.name)
 		result.setHttpMethod(HTTPMethods.valueOf(restMethod.method.name().toUpperCase()))
 
-		// TODO process method parameters (header and query)
-
 		TypedRequest request = restapiFactory.createTypedRequest()
 		result.request = request
 		restMethod.requestList.findAll{it.response == null}.each {
@@ -170,6 +169,16 @@ class RepreZenExporter {
 				InlineExample example = restapiFactory.createInlineExample();
 				example.setBody(it.requestContent)
 				request.getExamples().add(example)
+			}
+			// Add Header and Query parameters
+			// Because in READY! API parameters defined on a method, not on a request or a response
+			// The exporter puts all of the in the requests
+			for (name in restMethod.getPropertyNames()) {
+				def RestParameter param = restMethod.getProperty(name)
+				switch (param.style) {
+					case ParameterStyle.HEADER: request.getParameters().add(createHeaderParameter()); break;
+					case ParameterStyle.QUERY: request.getParameters().add(createHeaderParameter()); break;
+				}
 			}
 		}
 		List<RestRepresentation> responses = restMethod.representations.findAll{it.type == RestRepresentation.Type.RESPONSE || it.type == RestRepresentation.Type.FAULT }
@@ -217,10 +226,10 @@ class RepreZenExporter {
 		result.required = p.required
 
 		if (hasContent(p.defaultValue))
-		result.default = p.defaultValue
+			result.default = p.defaultValue
 
 		if (hasContent(p.description))
-		addDocumentation(result, p.description)
+			addDocumentation(result, p.description)
 
 		return result
 	}
