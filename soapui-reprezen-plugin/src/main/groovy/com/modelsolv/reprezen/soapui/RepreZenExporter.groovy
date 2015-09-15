@@ -264,7 +264,7 @@ class RepreZenExporter {
 		return path + File.separatorChar + StringUtils.createFileName( title, (char)'-' ) + ".zen"
 	}
 
-	static def hasContent( String str ) {
+	static boolean hasContent( String str ) {
 		return str != null && str.trim().length() > 0
 	}
 }

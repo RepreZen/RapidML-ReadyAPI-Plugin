@@ -53,14 +53,18 @@ public class ExportRepreZenAction extends AbstractSoapUIAction<RestService>
             try
             {
                 RepreZenExporter exporter = new RepreZenExporter( restService.getProject() );
+                String name = dialog.getValue(Form.TITLE);
+                if (!RepreZenExporter.hasContent(name)) {
+                	name = "MyZenModel";
+                }
 
-                String zenModel = exporter.createRepreZenAsText( dialog.getValue(Form.TITLE), restService,
+                String zenModel = exporter.createRepreZenAsText(name, restService,
                         dialog.getValue(Form.BASEURI));
 
 
                 String folder = dialog.getValue( Form.FOLDER );
 
-                File file = new File( exporter.createFileName( folder, dialog.getValue(Form.TITLE)));
+                File file = new File( exporter.createFileName( folder, name));
                 FileWriter writer = new FileWriter( file );
                 writer.write( zenModel );
                 writer.close();
