@@ -1,4 +1,4 @@
-package com.modelsolv.reprezen.soapui
+package com.modelsolv.reprezen.soapui.importer
 
 import com.eviware.soapui.impl.rest.RestMethod
 import com.eviware.soapui.impl.rest.RestRepresentation

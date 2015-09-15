@@ -1,4 +1,4 @@
-package com.modelsolv.reprezen.soapui
+package com.modelsolv.reprezen.soapui.importer
 
 import com.eviware.soapui.impl.rest.RestMethod
 import com.eviware.soapui.impl.rest.RestRepresentation
@@ -7,7 +7,8 @@ import com.eviware.soapui.impl.rest.RestResource
 import com.eviware.soapui.impl.rest.RestService
 import com.eviware.soapui.impl.rest.support.RestParameter;
 import com.eviware.soapui.impl.wsdl.WsdlProject
-import com.modelsolv.reprezen.restapi.HTTPMethods;
+import com.modelsolv.reprezen.restapi.HTTPMethods
+import com.modelsolv.reprezen.soapui.RepreZenImporter;;
 
 
 class RepreZenImporterTest extends GroovyTestCase {
