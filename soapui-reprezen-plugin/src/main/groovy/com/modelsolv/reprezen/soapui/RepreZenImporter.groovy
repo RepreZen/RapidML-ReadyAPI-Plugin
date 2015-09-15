@@ -173,7 +173,6 @@ class RepreZenImporter {
 
 	private RestParameter createParamFromNamedProperty(RestParamsPropertyHolder soapUiParams, Parameter rapidParameter) {
 		RestParameter param = soapUiParams.addProperty(rapidParameter.name)
-def style = getParameterStyle(rapidParameter)
 		param.style = getParameterStyle(rapidParameter)
 		param.description = rapidParameter.documentation?.text
 		param.defaultValue = rapidParameter.default
