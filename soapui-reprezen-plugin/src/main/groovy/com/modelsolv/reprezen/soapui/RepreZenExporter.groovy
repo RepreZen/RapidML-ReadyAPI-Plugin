@@ -115,19 +115,7 @@ class RepreZenExporter {
 				TemplateParameter zenParameter = createUriParameter(templateParam)
 				zenParameter.uriSegment = uriSegment
 				PrimitiveTypeSourceReference sourceReference = restapiFactory.createPrimitiveTypeSourceReference()
-				String zenType
-				switch (templateParam.type.localPart) {
-					case "dateTime": zenType = "dateType"; break
-					case "float": zenType = "float"; break
-					case "double": zenType = "double"; break
-					case "long": zenType = "long"; break
-					case "short":
-					case "int":
-							case "integer": zenType = "int"; break
-					case "boolean": zenType = "boolean"; break
-					default: zenType = "string"
-				}
-				sourceReference.simpleType = primitiveTypeRegistry.getElement(zenType)
+				sourceReference.simpleType = getZenPrimitiveProperty(templateParam.type.localPart)
 				zenParameter.sourceReference = sourceReference
 				uri.uriParameters.add(zenParameter)
 				uriSegment.name = templateParam.name
@@ -170,14 +158,11 @@ class RepreZenExporter {
 				example.setBody(it.requestContent)
 				request.getExamples().add(example)
 			}
-			// Add Header and Query parameters
-			// Because in READY! API parameters defined on a method, not on a request or a response
-			// The exporter puts all of the in the requests
-			for (name in restMethod.getPropertyNames()) {
-				def RestParameter param = restMethod.getProperty(name)
+			for (name in it.getPropertyNames()) {
+				def RestParameter param = it.getProperty(name)
 				switch (param.style) {
-					case ParameterStyle.HEADER: request.getParameters().add(createHeaderParameter()); break;
-					case ParameterStyle.QUERY: request.getParameters().add(createHeaderParameter()); break;
+					case ParameterStyle.HEADER: request.getParameters().add(createHeaderParameter(param)); break;
+					case ParameterStyle.QUERY: request.getParameters().add(createQueryParameter(param)); break;
 				}
 			}
 		}
@@ -205,16 +190,25 @@ class RepreZenExporter {
 		return result
 	}
 
-	private def createQueryParameter( RestParameter p ) {
+	private def createMessageParameter( RestParameter p ) {
 		MessageParameter zenParameter = restapiFactory.createMessageParameter();
-		zenParameter.setHttpLocation(HttpMessageParameterLocation.QUERY)
+		zenParameter.setName(p.getName())
+		PrimitiveTypeSourceReference sourceReference = restapiFactory.createPrimitiveTypeSourceReference()
+		sourceReference.simpleType = getZenPrimitiveProperty(p.type.localPart)
+		zenParameter.setSourceReference(sourceReference)
 		return setParameterProperties(p, zenParameter)
 	}
 
+	private def createQueryParameter( RestParameter p ) {
+		MessageParameter zenParameter = createMessageParameter(p);
+		zenParameter.setHttpLocation(HttpMessageParameterLocation.QUERY)
+		return zenParameter
+	}
+
 	private def createHeaderParameter( RestParameter p ) {
-		MessageParameter zenParameter = restapiFactory.createMessageParameter();
+		MessageParameter zenParameter = createMessageParameter(p);
 		zenParameter.setHttpLocation(HttpMessageParameterLocation.HEADER)
-		return setParameterProperties(p, zenParameter)
+		return zenParameter
 	}
 
 	private def URIParameter createUriParameter(RestParameter p ) {
@@ -248,6 +242,22 @@ class RepreZenExporter {
 		// "All 0 values of<...> have been consumed. More are needed to continue here." error
 		result.text = documentationValue.trim()
 		documentable.documentation = result
+	}
+	
+	private PrimitiveType getZenPrimitiveProperty(String soapUiTypeName) {
+		String zenType
+		switch (soapUiTypeName) {
+			case "dateTime": zenType = "dateType"; break
+			case "float": zenType = "float"; break
+			case "double": zenType = "double"; break
+			case "long": zenType = "long"; break
+			case "short":
+			case "int":
+					case "integer": zenType = "int"; break
+			case "boolean": zenType = "boolean"; break
+			default: zenType = "string"
+		}
+		return primitiveTypeRegistry.getElement(zenType)
 	}
 
 	public static String createFileName( String path, String title ) {

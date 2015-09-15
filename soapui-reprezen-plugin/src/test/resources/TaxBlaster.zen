@@ -22,8 +22,8 @@ zenModel TaxBlaster
 				application/xml
 			method GET getTaxFilingCollection
 				request
-					required param id property filingID in header
-					required param id property filingID in query
+					required param p1 property filingID in header
+					required param p2 property filingID in query
 				response TaxFilingCollection statusCode 200
 			method POST updateTaxFilingCollection
 				request TaxFilingCollection

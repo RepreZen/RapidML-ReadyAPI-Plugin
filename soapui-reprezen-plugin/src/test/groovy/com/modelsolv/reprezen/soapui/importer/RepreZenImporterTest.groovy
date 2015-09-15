@@ -1,11 +1,13 @@
 package com.modelsolv.reprezen.soapui.importer
 
+import com.eviware.soapui.config.TestOnDemandLocationsRequestDocumentConfig.TestOnDemandLocationsRequest.Request;
 import com.eviware.soapui.impl.rest.RestMethod
 import com.eviware.soapui.impl.rest.RestRepresentation
 import com.eviware.soapui.impl.rest.RestRequest;
 import com.eviware.soapui.impl.rest.RestResource
 import com.eviware.soapui.impl.rest.RestService
-import com.eviware.soapui.impl.rest.support.RestParameter;
+import com.eviware.soapui.impl.rest.support.RestParameter
+import com.eviware.soapui.impl.rest.support.RestParamsPropertyHolder.ParameterStyle;
 import com.eviware.soapui.impl.wsdl.WsdlProject
 import com.modelsolv.reprezen.restapi.HTTPMethods
 import com.modelsolv.reprezen.soapui.RepreZenImporter;;
@@ -68,6 +70,22 @@ class RepreZenImporterTest extends GroovyTestCase {
 		RestRepresentation response = getMethod.getRepresentations(RestRepresentation.Type.RESPONSE, "application/xml")[0]
 		assert response != null
 		assert response.getStatus() == [200]
+	}
+	
+	public void testMessageParameters() {
+		def Map<String, RestResource> resources = restService.getResources()
+		RestResource objectResource = resources.get("/taxFilings")
+
+		RestMethod getMethod = objectResource.methods.find {it.name == "getTaxFilingCollection"}
+		assert getMethod.method.name() == "GET"
+		def params = getMethod.getParams()
+		def RestRequest request = objectResource.getRequestAt(0)
+		RestParameter headerParam = request.getParams().get("p1")
+		assertNotNull headerParam
+		assert headerParam.style == ParameterStyle.HEADER
+		RestParameter queryParam = request.getParams().get("p2")
+		assertNotNull queryParam
+		assert queryParam.style == ParameterStyle.QUERY
 	}
 
 	public void testPutMethod() {
