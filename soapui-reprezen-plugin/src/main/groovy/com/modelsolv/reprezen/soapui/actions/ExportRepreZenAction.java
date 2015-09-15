@@ -44,7 +44,8 @@ public class ExportRepreZenAction extends AbstractSoapUIAction<RestService>
                 name = restService.getProject().getName() + " - " + name;
 
             dialog.setValue(Form.TITLE, name);
-            dialog.setValue(Form.BASEURI, restService.getBasePath());
+            String baseUri = restService.getEndpoints().length != 0 ? restService.getEndpoints()[0] : "";
+            dialog.setValue(Form.BASEURI, baseUri);
             dialog.setValue(Form.FOLDER, settings.getString(TARGET_PATH, ""));
         }
 
