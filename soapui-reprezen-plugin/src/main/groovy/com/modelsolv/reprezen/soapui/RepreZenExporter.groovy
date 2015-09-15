@@ -243,10 +243,10 @@ class RepreZenExporter {
 	}
 
 	private def addDocumentation(Documentable documentable, String documentationValue) {
-		def result = restapiFactory.createDocumentation
+		def result = restapiFactory.createDocumentation()
 		// Trim is essential here. A leading whitespace causes a
 		// "All 0 values of<...> have been consumed. More are needed to continue here." error
-		result.text = documentationValue.trim
+		result.text = documentationValue.trim()
 		documentable.documentation = result
 	}
 
