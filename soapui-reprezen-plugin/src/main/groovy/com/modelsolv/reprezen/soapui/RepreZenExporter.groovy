@@ -96,22 +96,37 @@ class RepreZenExporter {
 		ServiceDataResource result = restapiFactory.createObjectResource()
 		result.name = normalize(resource.name)
 		if( hasContent(resource.description))
-			addDocumentation(result, resource.description)
+		addDocumentation(result, resource.description)
 
 
 		URI uri = restapiFactory.createURI()
-		Collection<RestParameter> templateParams = resource.params.values().findAll{it.style == RestParamsPropertyHolder.ParameterStyle.TEMPLATE}
+		Collection<RestParameter> templateParams = resource.params.values().findAll{
+			it.style == RestParamsPropertyHolder.ParameterStyle.TEMPLATE
+		}
 		resource.path.split("/").each {
 			String segment = it
 			URISegment uriSegment
-			RestParameter templateParam = templateParams.find{param->"{"+param.name+"}" == segment}
+			RestParameter templateParam = templateParams.find{
+				param->"{"+param.name+"}" == segment
+			}
 			if (templateParam != null) {
 				uriSegment = restapiFactory.createURISegmentWithParameter()
 				TemplateParameter zenParameter = createUriParameter(templateParam)
 				zenParameter.uriSegment = uriSegment
 				PrimitiveTypeSourceReference sourceReference = restapiFactory.createPrimitiveTypeSourceReference()
-				// TODO find the most appropriate type
-				sourceReference.simpleType = primitiveTypeRegistry.getElement("string")
+				String zenType
+				switch (templateParam.type.localPart) {
+					case "dateTime": zenType = "dateType"; break
+					case "float": zenType = "float"; break
+					case "double": zenType = "double"; break
+					case "long": zenType = "long"; break
+					case "short":
+					case "int":
+					case "integer": zenType = "int"; break
+					case "boolean": zenType = "boolean"; break
+					default: zenType = "string"
+				}
+				sourceReference.simpleType = primitiveTypeRegistry.getElement(zenType)
 				zenParameter.sourceReference = sourceReference
 				uri.uriParameters.add(zenParameter)
 				uriSegment.name = templateParam.name
@@ -168,7 +183,7 @@ class RepreZenExporter {
 			// Message schema is not translated to SOAP UI model.
 			// Can we specify a message schema (XSD or JSON schema) in Ready! API?
 			// Related forum topic - http://community.smartbear.com/t5/Ready-API-and-SoapUI-PlugIn/Message-Payload-Schema/m-p/104037#U104037
-			
+
 			// TODO create Zen responses for each status code
 			restResponse.status.each {response.statusCode = it}
 			restMethod.requestList.each {
@@ -183,28 +198,28 @@ class RepreZenExporter {
 	private def createQueryParameter( RestParameter p ) {
 		MessageParameter zenParameter = restapiFactory.createMessageParameter();
 		zenParameter.setHttpLocation(HttpMessageParameterLocation.QUERY)
-		return setDefaultParameterProperties(p, zenParameter)
+		return setParameterProperties(p, zenParameter)
 	}
 
 	private def createHeaderParameter( RestParameter p ) {
 		MessageParameter zenParameter = restapiFactory.createMessageParameter();
 		zenParameter.setHttpLocation(HttpMessageParameterLocation.HEADER)
-		return setDefaultParameterProperties(p, zenParameter)
+		return setParameterProperties(p, zenParameter)
 	}
 
 	private def URIParameter createUriParameter(RestParameter p ) {
-		URIParameter result = setDefaultParameterProperties(p, restapiFactory.createTemplateParameter())
+		URIParameter result = setParameterProperties(p, restapiFactory.createTemplateParameter())
 		return result
 	}
 
-	private def setDefaultParameterProperties(RestParameter p, Parameter result) {
+	private def setParameterProperties(RestParameter p, Parameter result) {
 		result.required = p.required
 
 		if (hasContent(p.defaultValue))
-			result.default = p.defaultValue
+		result.default = p.defaultValue
 
 		if (hasContent(p.description))
-			addDocumentation(result, p.description)
+		addDocumentation(result, p.description)
 
 		return result
 	}
