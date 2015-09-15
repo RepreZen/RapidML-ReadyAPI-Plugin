@@ -49,6 +49,11 @@ import com.modelsolv.reprezen.restapi.xtext.loaders.ZenLibraries;
 import com.modelsolv.reprezen.restapi.xtext.serializers.RepreZenTextSerializer;
 
 
+/**
+ * Export a Ready! API model to RAPID model supported by RepreZen API Studio 
+ * @author <a href="mailto:tatiana.fesenko@reprezen.com">Tatiana Fesenko</a>
+ *
+ */
 class RepreZenExporter {
 
 	private final WsdlProject project
@@ -118,7 +123,7 @@ class RepreZenExporter {
 		result.URI = uri
 
 		resource.restMethodList.each {
-			Method method = createZenMethod( it, resourceAPI )
+			Method method = createMethod( it, resourceAPI )
 			result.methods.add(method)
 		}
 
@@ -130,7 +135,7 @@ class RepreZenExporter {
 		return result
 	}
 
-	def createZenMethod( RestMethod restMethod, ResourceAPI resourceAPI ) {
+	def createMethod( RestMethod restMethod, ResourceAPI resourceAPI ) {
 		Method result = restapiFactory.createMethod()
 		result.id = normalize(restMethod.name)
 		result.setHttpMethod(HTTPMethods.valueOf(restMethod.method.name().toUpperCase()))
@@ -159,6 +164,10 @@ class RepreZenExporter {
 			if (mediaType != null) {
 				request.mediaTypes.add(mediaType)
 			}
+			// Message schema is not translated to SOAP UI model.
+			// Can we specify a message schema (XSD or JSON schema) in Ready! API?
+			// Related forum topic - http://community.smartbear.com/t5/Ready-API-and-SoapUI-PlugIn/Message-Payload-Schema/m-p/104037#U104037
+			
 			// TODO create Zen responses for each status code
 			restResponse.status.each {response.statusCode = it}
 			restMethod.requestList.each {

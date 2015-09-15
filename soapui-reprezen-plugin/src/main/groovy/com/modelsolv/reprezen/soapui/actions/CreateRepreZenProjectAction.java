@@ -20,7 +20,7 @@ import com.eviware.x.form.support.AForm;
 /**
  * Shows a simple dialog for importing a RepreZen model
  *
- * @author Tatiana Fesenko
+ * @author <a href="mailto:tatiana.fesenko@reprezen.com">Tatiana Fesenko</a>
  */
 
 @PluginImportMethod( label = "RepreZen Model (REST)")

@@ -41,9 +41,9 @@ import com.modelsolv.reprezen.restapi.xtext.XtextDslStandaloneSetup
 
 
 /**
- * A simple RepreZen importer for SOAP UI
+ * Import a RAPID model to Ready! API model.
  *
- * @author Tatiana Fesenko
+ *@author <a href="mailto:tatiana.fesenko@reprezen.com">Tatiana Fesenko</a>
  */
 class RepreZenImporter {
 
@@ -137,7 +137,7 @@ class RepreZenImporter {
 			}
 		}
 	}
-	
+
 	private List<RestRepresentation> createMethodRepresentations(RestMethod soapUiMethod, TypedMessage rapidMessage, RestRepresentation.Type type) {
 		if (!rapidMessage.mediaTypes.isEmpty()) {
 			rapidMessage.mediaTypes.collect { mediaType ->
