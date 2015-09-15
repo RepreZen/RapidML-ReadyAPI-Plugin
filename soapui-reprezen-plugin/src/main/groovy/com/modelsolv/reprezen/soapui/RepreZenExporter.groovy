@@ -174,21 +174,22 @@ class RepreZenExporter {
 		}
 		List<RestRepresentation> responses = restMethod.representations.findAll{it.type == RestRepresentation.Type.RESPONSE || it.type == RestRepresentation.Type.FAULT }
 		responses.each{restResponse ->
-			TypedResponse response = restapiFactory.createTypedResponse()
-			result.responses.add(response)
-			MediaType mediaType = mediaTypeRegistry.getElement(restResponse.mediaType)
-			if (mediaType != null) {
-				request.mediaTypes.add(mediaType)
-			}
-			// Message schema is not translated to SOAP UI model.
-			// Can we specify a message schema (XSD or JSON schema) in Ready! API?
-			// Related forum topic - http://community.smartbear.com/t5/Ready-API-and-SoapUI-PlugIn/Message-Payload-Schema/m-p/104037#U104037
+			restResponse.status.each {responseStatus ->
+				TypedResponse response = restapiFactory.createTypedResponse()
+				result.responses.add(response)
+				MediaType mediaType = mediaTypeRegistry.getElement(restResponse.mediaType)
+				if (mediaType != null) {
+					request.mediaTypes.add(mediaType)
+				}
+				// Message schema is not translated to SOAP UI model.
+				// Can we specify a message schema (XSD or JSON schema) in Ready! API?
+				// Related forum topic - http://community.smartbear.com/t5/Ready-API-and-SoapUI-PlugIn/Message-Payload-Schema/m-p/104037#U104037
 
-			// TODO create Zen responses for each status code
-			restResponse.status.each {response.statusCode = it}
-			restMethod.requestList.each {
-				if( it.response != null && it.response.statusCode == response.statusCode) {
-					response.examples.add(it.response.contentAsString)
+				response.statusCode = responseStatus
+				restMethod.requestList.each {
+					if( it.response != null && it.response.statusCode == response.statusCode) {
+						response.examples.add(it.response.contentAsString)
+					}
 				}
 			}
 		}
