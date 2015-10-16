@@ -66,9 +66,10 @@ public class ExportRepreZenAction extends AbstractSoapUIAction<RestService>
                 String folder = dialog.getValue( Form.FOLDER );
 
                 File file = new File( exporter.createFileName( folder, name));
-                FileWriter writer = new FileWriter( file );
-                writer.write( zenModel );
-                writer.close();
+				try (FileWriter writer = new FileWriter(file)) {
+					writer.write(zenModel);
+					writer.close();
+				}
 
                 UISupport.showInfoMessage("ZenModel has been created at [" + file.getAbsolutePath() + "]");
 
