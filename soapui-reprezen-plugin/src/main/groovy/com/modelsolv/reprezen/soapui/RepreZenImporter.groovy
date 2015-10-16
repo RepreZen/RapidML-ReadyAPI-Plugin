@@ -200,6 +200,7 @@ class RepreZenImporter {
 		switch (rapidParameter.httpLocation) {
 			case HttpMessageParameterLocation.HEADER: return ParameterStyle.HEADER
 			case HttpMessageParameterLocation.QUERY: return ParameterStyle.QUERY
+			default: return ParameterStyle.QUERY
 		}
 	}
 
