@@ -11,6 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Used for service virtualization in the ServiceV module and will be available
+ * in the list of available definitions in the "New Virt" dialog.
+ * 
  * @author <a href="mailto:tatiana.fesenko@reprezen.com">Tatiana Fesenko</a>
  *
  */
