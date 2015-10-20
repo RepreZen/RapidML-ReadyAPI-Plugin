@@ -1,5 +1,5 @@
 # soapui-reprezen-plugin
-RepreZen API Studio plugin for SoapUI
+RepreZen API Studio plugin for SoapUI. 
 
 ### Download & Install
 
@@ -13,15 +13,4 @@ Clone the Git repository, make sure you have maven installed, and run
 ```
 mvn clean install assembly:single
 ```
-Note that Maven creates two jars, we need `soapui-reprezen-plugin/target/soapui-reprezen-plugin-1.0-dist.jar` as it contains dependencies.
-
-### Questions
-* RAML generator (and some other generators) defines an API Importer class which extends  `com.eviware.soapui.plugins.ApiImporter` and has `com.eviware.soapui.plugins.PluginApiImporter` annotation. I created a similar `RepreZenApiImporter` for RepreZen, but I don't completely understand why we need it.
-
-(http://community.smartbear.com/t5/Ready-API-and-SoapUI-PlugIn/Purpose-of-PluginApiImporter-annotation/m-p/104035#U104035)
-
-* How can we specify a message schema (XSD or JSON schema) in Ready! API?
-
-(http://community.smartbear.com/t5/Ready-API-and-SoapUI-PlugIn/Message-Payload-Schema/m-p/104037#U104037)
-
-Some remaining issues are marked with "TODO" in the exporter
+Note that Maven creates two jars, we use `soapui-reprezen-plugin/target/soapui-reprezen-plugin-1.0-dist.jar` as it contains dependencies.
