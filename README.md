@@ -1,5 +1,7 @@
 # soapui-reprezen-plugin
-RepreZen API Studio plugin for SoapUI. 
+RepreZen API Studio plugin for SoapUI:
+* Allows you to import RepreZen files into SoapUI for testing your REST APIs
+* Allows you to generate a RepreZen file for any REST API defined in SoapUI
 
 ### Download & Install
 
