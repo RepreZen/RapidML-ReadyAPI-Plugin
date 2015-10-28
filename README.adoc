@@ -2,32 +2,36 @@
 :imagesdir: ./images
 = soapui-reprezen-plugin
 
-RepreZen API Studio plugin for SoapUI:
+The SoapUI RepreZen plugin allows SmartBear's open source http://www.soapui.org/[SoapUI] and commercial http://smartbear.com/product/ready-api/overview/[Ready! API] tools to work with API models created by http://www.reprezen.com[RepreZen API Studio].  With the SoapUI RepreZen plugin, you can:
 
-* Allows you to import RepreZen files into SoapUI for testing your REST APIs
-* Allows you to generate a RepreZen file for any REST API defined in SoapUI
+* Import RepreZen's native http://rapid-api.org/rapid-ml[RAPID-ML] API models into SoapUI or Ready! API for testing and virtualization.
+* Generate an API model in RAPID-ML format from any REST API defined in SoapUI or Ready! API, for subsequent editing, documentation, visualization and code generation in RepreZen API Studio.
 
 == Download & Install
 
 To install the plugin to Ready! API:
 
-. Download the plugin JAR file from the https://github.com/RepreZen/soapui-reprezen-plugin/tree/master/jars[jars page], or <<build-it-yourself,build it yourself>> as described below.
+. Download the plugin JAR file from the https://github.com/RepreZen/soapui-reprezen-plugin/tree/master/jars[jars page], or <<building-the-plugin,build it yourself>> as described below.
 
 . In Ready! API, click the btn:[Plugins] toolbar button to show the Plugin Manager.
-+
-image::PluginManager.png[]
 
-. Click the btn:[Load plugin from file...] button
+. Click the btn:[Load plugin from file...] button, and open the plugin JAR file. You should see a message box indicating that the plugin has been installed successfully.  Click btn:[OK], then btn:[Close] to dismiss the Plugin Manager.
 
-Use the "Plugin Manager" button in Ready!API 1.3.1 to load the jar created by Maven build using the "Load plugin from file" button.
+The RepreZen SoapUI plugin is now ready to import and export RepreZen API Studio's native http://rapid-apij.org/rapid-ml[RAPID-ML] format.
 
-Both importer and exporter are implemented. Note that the export action is available on the RestResource, not the project itself.
+NOTE: The export action is available on the _RestResource_, not on the project itself.  See <<working-with-the-plugin,Working with the Plugin>> below for more details.
 
-== Build it yourself
+== Building the Plugin
 
-Clone the Git repository, make sure you have maven installed, and run
+To build the RepreZen SoapUI Plugin, clone the Git repository, make sure you have maven installed, and run
 
 ```
 mvn clean install assembly:single
 ```
-Note that Maven creates two jars, we use `soapui-reprezen-plugin/target/soapui-reprezen-plugin-1.0-dist.jar` as it contains dependencies.
+NOTE: Maven creates two jars.  We recommend using `soapui-reprezen-plugin/target/soapui-reprezen-plugin-1.0-dist.jar` as it contains all of the required dependencies.
+
+== Working with the Plugin
+=== Importing a RAPID-ML API Models
+RepreZen API Studio's _Zen Model_ or _RAPID Model_ is an API description in RAPID-ML format.
+=== Exporting a REST API to RepreZen API Studio
+RAPID-ML Models for use in RepreZen
