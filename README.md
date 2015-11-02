@@ -15,4 +15,4 @@ Clone the Git repository, make sure you have maven installed, and run
 ```
 mvn clean install assembly:single
 ```
-Note that Maven creates two jars, we use `soapui-reprezen-plugin/target/soapui-reprezen-plugin-1.0-dist.jar` as it contains dependencies.
+Note that Maven creates two jars, we use `soapui-reprezen-plugin/target/RapidML-ReadyAPI-Plugin-1.0-dist` as it contains dependencies.
