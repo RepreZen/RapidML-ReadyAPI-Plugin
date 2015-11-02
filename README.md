@@ -1,4 +1,4 @@
-# soapui-reprezen-plugin
+# RapidML-ReadyAPI-Plugin
 RepreZen API Studio plugin for SoapUI:
 * Allows you to import RepreZen files into SoapUI for testing your REST APIs
 * Allows you to generate a RepreZen file for any REST API defined in SoapUI
@@ -15,4 +15,4 @@ Clone the Git repository, make sure you have maven installed, and run
 ```
 mvn clean install assembly:single
 ```
-Note that Maven creates two jars, we use `soapui-reprezen-plugin/target/RapidML-ReadyAPI-Plugin-1.0-dist` as it contains dependencies.
+Note that Maven creates two jars, we use `target/RapidML-ReadyAPI-Plugin-1.0-dist` as it contains dependencies.
