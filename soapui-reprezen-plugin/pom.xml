@@ -3,10 +3,10 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<name>SoapUI API RepreZen Plugin</name>
+	<name>RapidML ReadyAPI Plugin</name>
 
-	<groupId>com.smartbear</groupId>
-	<artifactId>soapui-reprezen-plugin</artifactId>
+	<groupId>com.reprezen</groupId>
+	<artifactId>RapidML-ReadyAPI-Plugin</artifactId>
 	<version>1.0</version>
 
 
