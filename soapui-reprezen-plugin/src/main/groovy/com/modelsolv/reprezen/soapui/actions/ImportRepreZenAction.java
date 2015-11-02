@@ -26,7 +26,7 @@ public class ImportRepreZenAction extends AbstractSoapUIAction<WsdlProject> {
     private XFormDialog dialog;
 
     public ImportRepreZenAction() {
-        super("Import RepreZen Model", "Imports a RepreZen model into SoapUI");
+        super("Import RepreZen / RAPID-ML Model", "Imports REST API models in RAPID-ML format, used in RepreZen API Studio into Ready! API");
     }
 
     public void perform(final WsdlProject project, Object param) {
@@ -50,7 +50,7 @@ public class ImportRepreZenAction extends AbstractSoapUIAction<WsdlProject> {
                     XProgressDialog dlg = UISupport.getDialogs().createProgressDialog("Importing API", 0, "", false);
                     dlg.run(new RepreZenImporterWorker(expandedZenModelUrl, project));
 
-                    Analytics.trackAction("ImportRepreZenModel");
+                    Analytics.trackAction("ImportRepreZenRapidMLModel");
                     break;
                 }
             } catch (Exception ex) {
@@ -59,10 +59,11 @@ public class ImportRepreZenAction extends AbstractSoapUIAction<WsdlProject> {
         }
     }
 
-    @AForm(name = "Import RepreZen model", description = "Creates a REST API from the specified RepreZen model")
+    @AForm(name = "Import RAPID-ML Model", description = "Creates a REST API from a RAPID-ML model, the native format for RepreZen API Studio.")
     public interface Form {
-        @AField(name = "Import RepreZen model", description = "Location or URL of RepreZen model", type = AFieldType.FILE)
-        public final static String REPREZEN_MODEL_PATH = "Import RepreZen model";
+        @AField(name = "Import RAPID-ML Model", description = "Location or URL of RepreZen / RAPID-ML model", type = AFieldType.FILE)
+        public final static String REPREZEN_MODEL_PATH = "Import RAPID-ML Model";
  
      }
+
 }

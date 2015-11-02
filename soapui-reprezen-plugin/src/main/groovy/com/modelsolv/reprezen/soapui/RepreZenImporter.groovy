@@ -59,7 +59,7 @@ class RepreZenImporter {
 	}
 
 	public List<RestService> importZenModel(String url) {
-		logger.info("Importing RepreZen model [$url]")
+		logger.info("Importing RepreZen / RAPID-ML model [$url]")
 		ZenModel zenModel = HeadlessZenModelLoader.loadModel(URI.createURI(url))
 		zenModel.generateImplicitValues()
 		def List<RestService> result = zenModel.resourceAPIs.collect {

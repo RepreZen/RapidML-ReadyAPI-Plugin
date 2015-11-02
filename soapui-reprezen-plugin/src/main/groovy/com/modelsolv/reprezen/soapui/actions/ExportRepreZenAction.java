@@ -28,7 +28,7 @@ public class ExportRepreZenAction extends AbstractSoapUIAction<RestService>
 
     public ExportRepreZenAction()
     {
-        super( "Export RepreZen", "Creates a RepreZen model for selected REST API" );
+        super( "Export RepreZen / RAPID-ML Model", "Creates a RepreZen / RAPID-ML model for selected REST API" );
     }
 
     public void perform( RestService restService, Object param )
@@ -74,7 +74,7 @@ public class ExportRepreZenAction extends AbstractSoapUIAction<RestService>
                 UISupport.showInfoMessage("ZenModel has been created at [" + file.getAbsolutePath() + "]");
 
                 settings.setString(TARGET_PATH, dialog.getValue(Form.FOLDER));
-                Analytics.trackAction("ExportRepreZen");
+                Analytics.trackAction("ExportRepreZenRapidML");
 
                 break;
             }
@@ -85,10 +85,10 @@ public class ExportRepreZenAction extends AbstractSoapUIAction<RestService>
         }
     }
 
-    @AForm( name = "Export RepreZen model", description = "Creates a RepreZen API model for selected REST APIs in this project" )
+    @AForm( name = "Export RepreZen / RAPID-ML model", description = "Creates a RepreZen / RAPID-ML API model for selected REST APIs in this project" )
     public interface Form
     {
-        @AField( name = "Target Folder", description = "Where to save the RepreZen model", type = AField.AFieldType.FOLDER )
+        @AField( name = "Target Folder", description = "Where to save the RepreZen / RAPID-ML model", type = AField.AFieldType.FOLDER )
         public final static String FOLDER = "Target Folder";
 
         @AField( name = "Title", description = "The API Title", type = AField.AFieldType.STRING )

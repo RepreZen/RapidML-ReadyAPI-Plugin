@@ -18,16 +18,16 @@ import com.eviware.x.form.support.AField.AFieldType;
 import com.eviware.x.form.support.AForm;
 
 /**
- * Shows a simple dialog for importing a RepreZen model
+ * Shows a simple dialog for importing a RepreZen/RAPID-ML model
  *
  * @author <a href="mailto:tatiana.fesenko@reprezen.com">Tatiana Fesenko</a>
  */
-@PluginImportMethod( label = "RepreZen Model (REST)")
+@PluginImportMethod( label = "RAPID-ML Model (REST)")
 public class CreateRepreZenProjectAction extends AbstractSoapUIAction<WorkspaceImpl> {
     private XFormDialog dialog;
 
     public CreateRepreZenProjectAction() {
-        super("Import RepreZen Model", "Imports a RepreZen model into SoapUI");
+        super("Import RepreZen / RAPID-ML Model", "Imports REST API models in RAPID-ML format, used in RepreZen API Studio into Ready! API");
     }
 
     public void perform(final WorkspaceImpl workspace, Object param) {
@@ -57,7 +57,7 @@ public class CreateRepreZenProjectAction extends AbstractSoapUIAction<WorkspaceI
                     XProgressDialog dlg = UISupport.getDialogs().createProgressDialog("Importing API", 0, "", false);
                     dlg.run(new RepreZenImporterWorker(expandedZenModelUrl, project));
 
-                    Analytics.trackAction("ImportRepreZenModel");
+                    Analytics.trackAction("ImportRepreZenRapidMLModel");
                     break;
                 }
             } catch (Exception ex) {
@@ -66,13 +66,13 @@ public class CreateRepreZenProjectAction extends AbstractSoapUIAction<WorkspaceI
         }
     }
 
-    @AForm(name = "Import RepreZen model", description = "Creates a REST API from the specified RepreZen model")
+    @AForm(name = "Import RAPID-ML Model", description = "Creates a REST API from the specified RAPID-ML model, the native format for RepreZen API Studio")
     public interface Form {
         @AField(name = "Project Name", description = "Name of the project", type = AField.AFieldType.STRING)
         public final static String PROJECT_NAME = "Project Name";
         
-        @AField(name = "Import RepreZen model", description = "Location or URL of RepreZen model", type = AFieldType.FILE)
-        public final static String REPREZEN_MODEL_PATH = "Import RepreZen model";
+        @AField(name = "Import RAPID-ML Model", description = "Location or URL of RepreZen / RAPID-ML model", type = AFieldType.FILE)
+        public final static String REPREZEN_MODEL_PATH = "Import RAPID-ML Model";
  
      }
 }

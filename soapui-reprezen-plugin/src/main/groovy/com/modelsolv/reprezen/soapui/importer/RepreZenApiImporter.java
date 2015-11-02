@@ -17,7 +17,7 @@ import java.util.List;
  * @author <a href="mailto:tatiana.fesenko@reprezen.com">Tatiana Fesenko</a>
  *
  */
-@PluginApiImporter(label = "RepreZen API Studio")
+@PluginApiImporter(label = "RepreZen API Studio RAPID-ML")
 public class RepreZenApiImporter implements ApiImporter {
 	@Override
 	public List<Interface> importApis(Project project) {
