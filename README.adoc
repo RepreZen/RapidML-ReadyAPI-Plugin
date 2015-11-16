@@ -3,49 +3,75 @@
 
 = RapidML-ReadyAPI-Plugin
 
-The RapidML-ReadyAPI-Plugin allows SmartBear's http://smartbear.com/product/ready-api/overview/[Ready! API] tools to work with API models created by http://www.reprezen.com[RepreZen API Studio].  With this plugin, you can:
+The RapidML-ReadyAPI-Plugin allows SmartBear's
+http://smartbear.com/product/ready-api/overview/[Ready! API] tools to work with
+API models created by http://www.reprezen.com[RepreZen API Studio].  With this
+plugin, you can:
 
-* Import RepreZen's native http://rapid-api.org/rapid-ml[RAPID-ML] API models into Ready! API for testing and virtualization.
-* Generate an API model in RAPID-ML format from any REST API defined in Ready! API, for subsequent editing, documentation, visualization and code generation in RepreZen API Studio.
+* Import RepreZen's native http://rapid-api.org/rapid-ml[RAPID-ML] API models
+into Ready! API for testing and virtualization.
+
+* Generate an API model in RAPID-ML format from any REST API defined in
+ Ready! API, for subsequent editing, documentation, visualization and code
+ generation in RepreZen API Studio.
 
 == Download & Install
 
 To install the plugin to Ready! API:
 
-. Download the plugin JAR file from the https://github.com/RepreZen/RapidML-ReadyAPI-Plugin/tree/master/jars[jars page], or <<building-the-plugin,build it yourself>> as described below.
+. Download the plugin JAR file from the
+https://github.com/RepreZen/RapidML-ReadyAPI-Plugin/tree/master/jars[jars page],
+or <<building-the-plugin,build it yourself>> as described below.
 
-. In Ready! API, click the btn:[Plugins] toolbar button to show the Plugin Manager.
+. In Ready! API, click the btn:[Plugins] toolbar button to show the Plugin
+Manager.
 
-. Click the btn:[Load plugin from file...] button, and open the plugin JAR file. You should see a message box indicating that the plugin has been installed successfully.  Click btn:[OK], then btn:[Close] to dismiss the Plugin Manager.
+. Click the btn:[Load plugin from file...] button, and open the plugin JAR file.
+You should see a message box indicating that the plugin has been installed
+successfully.  Click btn:[OK], then btn:[Close] to dismiss the Plugin Manager.
 
-Ready! API is now ready to import and export RepreZen API Studio's native http://rapid-apij.org/rapid-ml[RAPID-ML] format.
+Ready! API is now ready to import and export RepreZen API Studio's native
+http://rapid-apij.org/rapid-ml[RAPID-ML] format.
 
-NOTE: The export action is available on the _RestResource_, not on the project itself.  See <<working-with-the-plugin,Working with the Plugin>> below for more details.
+NOTE: The export action is available on the _RestResource_, not on the project
+itself.  See <<working-with-the-plugin,Working with the Plugin>> below for more
+details.
 
 == Working with the Plugin
 
 === Importing a RAPID-ML API Models
-RepreZen API Studio's _Zen Model_ or _RAPID Model_ is an API description in RAPID-ML format.  RAPID-ML provides primitive property constraints to help with message validation.  API Studio includes an example-driven mock service and essential sandbox testing.
 
-When your API is ready for  comprehensive, methodical testing, you can import your RAPID-ML model directly into Ready! API for complete functional testing, load testing, security testing and API virtualization.
+RepreZen API Studio's _Zen Model_ or _RAPID Model_ is an API description in
+RAPID-ML format.  RAPID-ML includes an intuitive, technology-neutral schema
+language to specify message formats, including data structures, enumerations,
+cardinality  constraints, string length, regex and numeric range constraints.
+API Studio also includes an example-driven mock service and essential sandbox
+testing.
+
+When your API is ready for  comprehensive, methodical testing, you can import
+your RAPID-ML model directly into Ready! API for complete functional testing,
+load testing, security testing and API virtualization.
 
 To import the model:
 
 . In Ready! API, select menu:File[New REST Project].
 
-. In the New REST Project dialog, specify the baseURI from your RAPID-ML resourceAPI, and click btn:[OK].  You'll see a new project with some boilerplate elements
+. In the New REST Project dialog, specify the baseURI from your RAPID-ML
+resourceAPI, and click btn:[OK].  You'll see a new project with some boilerplate
+elements
 
 .
 
-=== Exporting a REST API to RepreZen API Studio
-RAPID-ML Models for use in RepreZen
+=== Exporting a REST API to RepreZen API Studio RAPID-ML Models for use in
+RepreZen
 
 == Building the Plugin
 
-To build the RapidML-ReadyAPI-Plugin, clone the Git repository, make sure you have maven installed, and run
+To build the RapidML-ReadyAPI-Plugin, clone the Git repository, make sure you
+have maven installed, and run
 
-```
-mvn clean install assembly:single
-```
+``` mvn clean install assembly:single ```
 
-NOTE: Maven creates two jars.  We recommend using `/target/RapidML-ReadyAPI-Plugin-1.0-dist.jar` as it contains all of the required dependencies.
+NOTE: Maven creates two jars.  We recommend using
+`/target/RapidML-ReadyAPI-Plugin-1.0-dist.jar` as it contains all of the
+required dependencies.
