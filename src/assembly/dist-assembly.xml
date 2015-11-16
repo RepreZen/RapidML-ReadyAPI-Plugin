@@ -36,7 +36,7 @@
             <unpack>true</unpack>
             <outputDirectory>/</outputDirectory>
             <includes>
-                <include>com.smartbear:soapui-reprezen-plugin</include>
+                <include>com.reprezen:RapidML-ReadyAPI-Plugin</include>
             </includes>
         </dependencySet>
     </dependencySets>
