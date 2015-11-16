@@ -54,23 +54,44 @@ load testing, security testing and API virtualization.
 
 To import the model:
 
-. In Ready! API, select menu:File[New REST Project].
+. In Ready! API, select menu:File[New Project].
 
-. In the New REST Project dialog, specify the baseURI from your RAPID-ML
-resourceAPI, and click btn:[OK].  You'll see a new project with some boilerplate
-elements
+. In the New Project dialog, make sure the *create project from* radio button
+is selected, and select *RAPID-ML Model (REST)* from the drop-down list.  Click
+btn:[OK] to continue.
 
-.
+. In the *Import RAPID-ML Model* dialog box, enter a name for a new Ready! API
+project that will contain the imported API.  Click btn:[Browse...] to select
+the RAPID-ML model.  Click btn:[OK] to continue.
 
-=== Exporting a REST API to RepreZen API Studio RAPID-ML Models for use in
-RepreZen
+. Choose the location and name for your Ready! API Project file and click
+btn:[Save].
+
+Your new project will appear on the left, under *Recent* (from the *Start*
+  screen) or in the *Projects* tree (from the *Projects* screen).  Double-click
+  the project name to open its contents, and explore the definitions in Ready!
+  API.
+
+=== Exporting a REST API to RAPID-ML for use in RepreZen API Studio
+
+To export an API model from Ready! API to RAPID-ML:
+
+. Make sure the *Projects* screen is active, with the tree expanded to show the
+REST API you want to export.
+
+. Right-click the API (_not_ the top-level project) and select
+*Export RepreZen / RAPID-ML Model* from the context menu.
+
+. Choose the folder, filename and Base URI for the RAPID-ML model, and click
+btn:[OK].  You should see a message confirming that your RAPID-ML model has
+been exported successfully. 
 
 == Building the Plugin
 
 To build the RapidML-ReadyAPI-Plugin, clone the Git repository, make sure you
 have maven installed, and run
 
-``` mvn clean install assembly:single ```
+ mvn clean install assembly:single
 
 NOTE: Maven creates two jars.  We recommend using
 `/target/RapidML-ReadyAPI-Plugin-1.0-dist.jar` as it contains all of the
