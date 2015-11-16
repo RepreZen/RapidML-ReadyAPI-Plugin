@@ -1,0 +1,59 @@
+<assembly>
+    <id>dist</id>
+    <formats>
+        <format>jar</format>
+    </formats>
+    <includeBaseDirectory>false</includeBaseDirectory>
+    <dependencySets>
+        <dependencySet>
+            <unpack>false</unpack>
+            <outputDirectory>/lib</outputDirectory>
+            <includes>
+                <include>com.modelsolv.reprezen:com.modelsolv.reprezen.restapi</include>
+                <include>com.modelsolv.reprezen:com.modelsolv.reprezen.core</include>
+                <include>com.modelsolv.reprezen:com.modelsolv.reprezen.restapi.xtext</include>
+                
+                <include>org.eclipse.xtend:org.eclipse.xtend.lib</include>
+                <include>org.eclipse.xtext:org.eclipse.xtext</include>
+                <include>org.eclipse.xtext:org.eclipse.xtext.util</include>
+                <include>org.eclipse.xtext:org.eclipse.xtext.ui</include>
+                <include>org.eclipse.emf:org.eclipse.emf.ecore</include>
+                <include>org.eclipse.emf:org.eclipse.emf.common</include>
+                <include>org.eclipse.emf:org.eclipse.emf.ecore.xmi</include>
+                <include>org.eclipse.jface:org.eclipse.jface</include>
+                <include>org.eclipse.equinox:org.eclipse.equinox.preferences</include>
+                <include>org.eclipse.equinox:org.eclipse.equinox.security</include>
+                <include>org.eclipse.equinox:org.eclipse.equinox.common</include>
+                <include>org.eclipse.equinox:org.eclipse.equinox.app</include>
+                <include>org.eclipse.core:org.eclipse.core.runtime</include>
+                <include>org.eclipse.osgi:org.eclipse.osgi</include>
+
+                <include>org.antlr.runtime:org.antlr.runtime</include>
+                
+            </includes>
+        </dependencySet>
+        <dependencySet>
+            <unpack>true</unpack>
+            <outputDirectory>/</outputDirectory>
+            <includes>
+                <include>com.smartbear:soapui-reprezen-plugin</include>
+            </includes>
+        </dependencySet>
+    </dependencySets>
+    <fileSets>
+        <fileSet>
+            <directory>${project.basedir}</directory>
+            <outputDirectory>/META-INF</outputDirectory>
+            <includes>
+                <include>LICENSE*</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>${project.basedir}/src/assembly</directory>
+            <outputDirectory>/META-INF</outputDirectory>
+            <includes>
+                <include>readme.txt</include>
+            </includes>
+        </fileSet>
+    </fileSets>
+</assembly>
