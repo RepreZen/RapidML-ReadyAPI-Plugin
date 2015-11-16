@@ -80,7 +80,6 @@ class RepreZenExporterTests extends GroovyTestCase {
 		for (Issue issue: validator.validate(resource, CheckMode.ALL, CancelIndicator.NullImpl)) {
 			fail(issue.getMessage());
 		}
-		assert zenModel.name == "Test_API"
 		// generateImplicitValues() throws an exception if a resource does not have a corresponding data type
 		zenModel.generateImplicitValues()
 	}
