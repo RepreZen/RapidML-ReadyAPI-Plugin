@@ -15,7 +15,7 @@ into Ready! API for testing and virtualization.
  Ready! API, for subsequent editing, documentation, visualization and code
  generation in RepreZen API Studio.
 
-== Download & Install
+== Download and Install
 
 To install the plugin to Ready! API:
 
@@ -39,7 +39,7 @@ details.
 
 == Working with the Plugin
 
-=== Importing a RAPID-ML API Models
+=== Importing a RAPID-ML Model
 
 RepreZen API Studio's _Zen Model_ or _RAPID Model_ is an API description in
 RAPID-ML format.  RAPID-ML includes an intuitive, technology-neutral schema
@@ -52,7 +52,7 @@ When your API is ready for  comprehensive, methodical testing, you can import
 your RAPID-ML model directly into Ready! API for complete functional testing,
 load testing, security testing and API virtualization.
 
-To import the model:
+=== Importing a RAPID Model to a New Ready! API Project:
 
 . In Ready! API, select menu:File[New Project].
 
@@ -72,9 +72,10 @@ Your new project will appear on the left, under *Recent* (from the *Start*
   the project name to open its contents, and explore the definitions in Ready!
   API.
 
-=== Exporting a REST API to RAPID-ML for use in RepreZen API Studio
+=== Exporting a REST API to RAPID-ML
 
-To export an API model from Ready! API to RAPID-ML:
+You can export any REST API from Ready! API to RAPID-ML, for use in RepreZen API
+Studio:
 
 . Make sure the *Projects* screen is active, with the tree expanded to show the
 REST API you want to export.
@@ -84,7 +85,7 @@ REST API you want to export.
 
 . Choose the folder, filename and Base URI for the RAPID-ML model, and click
 btn:[OK].  You should see a message confirming that your RAPID-ML model has
-been exported successfully. 
+been exported successfully.
 
 == Building the Plugin
 
