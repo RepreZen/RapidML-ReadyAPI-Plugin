@@ -52,7 +52,10 @@ When your API is ready for  comprehensive, methodical testing, you can import
 your RAPID-ML model directly into Ready! API for complete functional testing,
 load testing, security testing and API virtualization.
 
-=== Importing a RAPID Model to a New Ready! API Project:
+==== Importing a RAPID Model to a New Ready! API Project:
+
+Follow this procedure to create a new Ready! API project, containing your
+imported RAPID model:
 
 . In Ready! API, select menu:File[New Project].
 
@@ -68,9 +71,24 @@ the RAPID-ML model.  Click btn:[OK] to continue.
 btn:[Save].
 
 Your new project will appear on the left, under *Recent* (from the *Start*
-  screen) or in the *Projects* tree (from the *Projects* screen).  Double-click
-  the project name to open its contents, and explore the definitions in Ready!
-  API.
+screen) or in the *Projects* tree (from the *Projects* screen).  Double-click
+the project name to open its contents, and explore the definitions in Ready!
+API.
+
+==== Importing a RAPID Model to an Existing Project
+
+You can also import a RAPID-ML model into an existing Ready! API project:
+
+. In the *Projects* screen, select the project you want to contain the imported
+RAPID model.
+
+. From the right-click context menu, or from the *Project* menu, choose *Import
+RepreZen / RAPID-ML Model*.
+
+. Click btn:[Browse...] to select the RAPID-ML model.  Click btn:[OK] to
+continue.
+
+The imported model should appear in the project view.
 
 === Exporting a REST API to RAPID-ML
 
