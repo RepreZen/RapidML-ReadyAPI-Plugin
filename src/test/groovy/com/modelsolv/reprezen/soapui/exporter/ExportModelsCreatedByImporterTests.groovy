@@ -12,14 +12,12 @@ class ExportModelsCreatedByImporterTests extends GroovyTestCase {
 		String modelText = exportImportedModel("TaxBlaster.zen")
 		Console.println( modelText )
 		assertNotNull modelText
-		RepreZenExporterTests.validateZenModel(modelText)
 	}
 
 	public void testTaxBlasterWithExamples() {
 		String modelText = exportImportedModel("TaxBlasterWithExamples.zen")
 		Console.println( modelText )
 		assertNotNull modelText
-		RepreZenExporterTests.validateZenModel(modelText)
 	}
 
 	protected String exportImportedModel(String modelFile) {
