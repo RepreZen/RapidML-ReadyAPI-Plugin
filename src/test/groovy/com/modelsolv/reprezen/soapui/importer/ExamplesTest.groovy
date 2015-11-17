@@ -77,7 +77,7 @@ class ExamplesTest extends GroovyTestCase {
 		assert response != null
 		assert equalsIgnoreLinebreaks(response.sampleContent, personXmlContents)
 	}
-	
+
 	public void testExternalExamplesInRequest() {
 		RestService restService = RepreZenImporterTest.importRepreZen("externalExamples/TaxBlasterWithExternalExamples.zen")
 		def Map<String, RestResource> resources = restService.getResources()
@@ -92,8 +92,19 @@ class ExamplesTest extends GroovyTestCase {
 		assert request != null
 		assert equalsIgnoreLinebreaks(request.representations[0].sampleContent, personXmlContents)
 	}
-	
-	public boolean equalsIgnoreLinebreaks(String s1, String s2) {
-		s1.replaceAll("\\r?\\n", "\n") == s2.replaceAll("\\r?\\n", "\n")
+
+	/**
+	 * Used to compare the result of {@link com.eviware.soapui.impl.rest.RestRepresentation#sampleContent()}
+	 *  with a predefined output as  {@link com.eviware.soapui.impl.rest.RestRepresentation#sampleContent()} uses OS-specific linebreaks
+	 * @param s1
+	 * @param s2
+	 * @return
+	 */
+	protected boolean equalsIgnoreLinebreaks(String s1, String s2) {
+		normalizeNL(s1) == normalizeNL(s2)
+	}
+
+	protected String normalizeNL(String str) {
+		return str.replaceAll("\\r?\\n", "\n");
 	}
 }
