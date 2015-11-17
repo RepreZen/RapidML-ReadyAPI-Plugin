@@ -34,7 +34,7 @@ class ExamplesTest extends GroovyTestCase {
 			it.type == RestRepresentation.Type.RESPONSE
 		}
 		assert response != null
-		assert response.sampleContent == """[
+		assert equalsIgnoreLinebreaks(response.sampleContent,  """[
   {
     "taxpayerID": "user1",
     "lastName": "Smith",
@@ -58,7 +58,7 @@ class ExamplesTest extends GroovyTestCase {
     "lastName": "Johnson",
     "firstName": "Robert"
   }
-]"""
+]""")
 	}
 
 	public void testExternalExamplesInResponse() {
@@ -75,7 +75,7 @@ class ExamplesTest extends GroovyTestCase {
 			it.type == RestRepresentation.Type.RESPONSE
 		}
 		assert response != null
-		assert response.sampleContent == personXmlContents
+		assert equalsIgnoreLinebreaks(response.sampleContent, personXmlContents)
 	}
 	
 	public void testExternalExamplesInRequest() {
@@ -90,6 +90,10 @@ class ExamplesTest extends GroovyTestCase {
 		assert getMethod != null
 		RestRequest request = getMethod.requests.first()
 		assert request != null
-		assert request.representations[0].sampleContent == personXmlContents
+		assert equalsIgnoreLinebreaks(request.representations[0].sampleContent, personXmlContents)
+	}
+	
+	public boolean equalsIgnoreLinebreaks(String s1, String s2) {
+		s1.replaceAll("\\r?\\n", "\n") == s2.replaceAll("\\r?\\n", "\n")
 	}
 }
