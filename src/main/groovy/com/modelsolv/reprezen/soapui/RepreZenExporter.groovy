@@ -39,9 +39,12 @@ import com.modelsolv.reprezen.restapi.TypedRequest
 import com.modelsolv.reprezen.restapi.TypedResponse;
 import com.modelsolv.reprezen.restapi.URIParameter
 import com.modelsolv.reprezen.restapi.URISegment;
-import com.modelsolv.reprezen.restapi.ZenModel;
+import com.modelsolv.reprezen.restapi.ZenModel
+import com.modelsolv.reprezen.restapi.datatypes.DataModel;
 import com.modelsolv.reprezen.restapi.datatypes.DatatypesFactory
+import com.modelsolv.reprezen.restapi.datatypes.PrimitiveProperty;
 import com.modelsolv.reprezen.restapi.datatypes.PrimitiveType
+import com.modelsolv.reprezen.restapi.datatypes.Structure;
 import com.modelsolv.reprezen.restapi.xtext.RestApiXtextPlugin;
 import com.modelsolv.reprezen.restapi.xtext.XtextDslStandaloneSetup
 import com.modelsolv.reprezen.restapi.xtext.loaders.MediaTypeRegistry;
@@ -82,18 +85,21 @@ class RepreZenExporter {
 		resourceAPI.name = normalize(name)
 		resourceAPI.baseURI = baseUri
 		zenModel.resourceAPIs.add(resourceAPI)
-		exportRestService( service, resourceAPI)
+		DataModel dataModel = datatypesFactory.createDataModel()
+		dataModel.setName(normalize(name)+"DataModel")
+		zenModel.getDataModels().add(dataModel)
+		exportRestService( service, resourceAPI, dataModel)
 		return zenModel
 	}
 
-	private def exportRestService(RestService restService, ResourceAPI resourceAPI) {
+	private def exportRestService(RestService restService, ResourceAPI resourceAPI, DataModel dataModel) {
 		restService.resourceList.each {
-			def ResourceDefinition res = createResourceDefinition( it, resourceAPI )
+			def ServiceDataResource res = createResourceDefinition( it, resourceAPI, dataModel)
 			resourceAPI.ownedResourceDefinitions.add(res)
 		}
 	}
 
-	private def ResourceDefinition createResourceDefinition( RestResource resource, ResourceAPI resourceAPI ) {
+	private def ServiceDataResource createResourceDefinition( RestResource resource, ResourceAPI resourceAPI, DataModel dataModel ) {
 		ServiceDataResource result = restapiFactory.createObjectResource()
 		result.name = normalize(resource.name)
 		if( hasContent(resource.description))
@@ -133,10 +139,13 @@ class RepreZenExporter {
 		}
 
 		resource.childResourceList.each {
-			ResourceDefinition res = createResourceDefinition( it, resourceAPI )
+			ResourceDefinition res = createResourceDefinition( it, resourceAPI, dataModel)
 			resourceAPI.ownedResourceDefinitions.add(res )
 		}
-
+		Structure structure = datatypesFactory.createStructure()
+		dataModel.getOwnedDataTypes().add(structure)
+		structure.setName(result.getName() + "Type")
+		result.setType(structure)
 		return result
 	}
 
@@ -152,8 +161,7 @@ class RepreZenExporter {
 			if (mediaType != null) {
 				request.mediaTypes.add(mediaType)
 			}
-			if(hasContent( it.requestContent ))
-			{
+			if(hasContent( it.requestContent )) {
 				InlineExample example = restapiFactory.createInlineExample();
 				example.setBody(it.requestContent)
 				request.getExamples().add(example)
@@ -243,7 +251,7 @@ class RepreZenExporter {
 		result.text = documentationValue.trim()
 		documentable.documentation = result
 	}
-	
+
 	private PrimitiveType getZenPrimitiveProperty(String soapUiTypeName) {
 		String zenType
 		switch (soapUiTypeName) {

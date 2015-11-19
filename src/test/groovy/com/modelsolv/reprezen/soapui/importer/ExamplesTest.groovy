@@ -34,7 +34,7 @@ class ExamplesTest extends GroovyTestCase {
 			it.type == RestRepresentation.Type.RESPONSE
 		}
 		assert response != null
-		assert response.sampleContent == """[
+		assert equalsIgnoreLinebreaks(response.sampleContent,  """[
   {
     "taxpayerID": "user1",
     "lastName": "Smith",
@@ -58,7 +58,7 @@ class ExamplesTest extends GroovyTestCase {
     "lastName": "Johnson",
     "firstName": "Robert"
   }
-]"""
+]""")
 	}
 
 	public void testExternalExamplesInResponse() {
@@ -75,9 +75,9 @@ class ExamplesTest extends GroovyTestCase {
 			it.type == RestRepresentation.Type.RESPONSE
 		}
 		assert response != null
-		assert response.sampleContent == personXmlContents
+		assert equalsIgnoreLinebreaks(response.sampleContent, personXmlContents)
 	}
-	
+
 	public void testExternalExamplesInRequest() {
 		RestService restService = RepreZenImporterTest.importRepreZen("externalExamples/TaxBlasterWithExternalExamples.zen")
 		def Map<String, RestResource> resources = restService.getResources()
@@ -90,6 +90,21 @@ class ExamplesTest extends GroovyTestCase {
 		assert getMethod != null
 		RestRequest request = getMethod.requests.first()
 		assert request != null
-		assert request.representations[0].sampleContent == personXmlContents
+		assert equalsIgnoreLinebreaks(request.representations[0].sampleContent, personXmlContents)
+	}
+
+	/**
+	 * Used to compare the result of {@link com.eviware.soapui.impl.rest.RestRepresentation#sampleContent()}
+	 *  with a predefined output as  {@link com.eviware.soapui.impl.rest.RestRepresentation#sampleContent()} uses OS-specific linebreaks
+	 * @param s1
+	 * @param s2
+	 * @return
+	 */
+	protected boolean equalsIgnoreLinebreaks(String s1, String s2) {
+		normalizeNL(s1) == normalizeNL(s2)
+	}
+
+	protected String normalizeNL(String str) {
+		return str.replaceAll("\\r?\\n", "\n");
 	}
 }
