@@ -25,7 +25,7 @@
   
   Green comments are used in the code to draw attention to the feature being demonstrated in this example.
 */
-zenModel TaxBlaster
+rapidModel TaxBlaster
 	resourceAPI TaxBlasterInterface baseURI "http://taxblaster.com/api"
 
 		objectResource TaxFilingObject type TaxFiling

@@ -1,6 +1,6 @@
-import TaxBlaster.DataModel from "TaxBlasterDataModel.zen" 
+import TaxBlaster.DataModel from "TaxBlasterDataModel.rapid" 
 
-zenModel TaxBlaster
+rapidModel TaxBlaster
 
 	resourceAPI InterfaceModel baseURI "http://localhost:8080"
 	

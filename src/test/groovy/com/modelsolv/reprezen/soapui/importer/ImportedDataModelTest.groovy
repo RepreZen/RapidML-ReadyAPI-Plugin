@@ -13,7 +13,7 @@ import com.modelsolv.reprezen.restapi.HTTPMethods;
 class ImportedDataModelTest extends GroovyTestCase {
 
 	public void testDataModelImport() {
-		RestService restService = RepreZenImporterTest.importRepreZen("dataModelImport/TaxBlaster.zen")
+		RestService restService = RepreZenImporterTest.importRepreZen("dataModelImport/TaxBlaster.rapid")
 		def Map<String, RestResource> resources = restService.getResources()
 		assert resources.size() == 4
 	}
