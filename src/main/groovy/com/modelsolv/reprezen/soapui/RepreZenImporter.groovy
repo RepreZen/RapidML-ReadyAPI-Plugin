@@ -66,6 +66,10 @@ class RepreZenImporter {
 		if (zenModel.resourceAPIs.isEmpty()) {
 			UISupport.showInfoMessage("The selected RAPID-ML model does not contain any interface definitions!");
 		}
+		return importZenModel(zenModel)
+	}
+
+	public List<RestService> importZenModel(ZenModel zenModel) {
 		def List<RestService> result = zenModel.resourceAPIs.collect {
 			RestService restService = createRestService(it)
 		}
