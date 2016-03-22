@@ -10,15 +10,15 @@ import com.eviware.soapui.impl.wsdl.WsdlProject
 import com.modelsolv.reprezen.restapi.HTTPMethods;
 
 
-class ImportedDataModelTest extends GroovyTestCase {
+class ImportModelWithNoResourceApiTest extends GroovyTestCase {
 
-	public void testDataModelImport() {
-		RestService restService = RepreZenImporterTest.importRepreZenAndGenFirstService("dataModelImport/TaxBlaster.rapid")
-		def Map<String, RestResource> resources = restService.getResources()
-		assert resources.size() == 4
+	public void testUndefinedResourceAPI() {
+		def result = RepreZenImporterTest.importRepreZen("UndefinedResourceAPI.rapid")
+		assert result.isEmpty()
 	}
 
-	public void testMessageSchema() {
-		// TODO How can we specify message schema (XSD or message schema in Ready! API)
+	public void testEmptyResourceAPI() {
+		RestService restService = RepreZenImporterTest.importRepreZenAndGenFirstService("EmptyResourceAPI.rapid")
+		assert restService != null
 	}
 }

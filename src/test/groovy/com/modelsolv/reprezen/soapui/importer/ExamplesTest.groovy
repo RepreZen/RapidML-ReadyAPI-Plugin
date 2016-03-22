@@ -21,7 +21,7 @@ class ExamplesTest extends GroovyTestCase {
 """
 
 	public void testInlineExamples() {
-		RestService restService = RepreZenImporterTest.importRepreZen("TaxBlasterWithExamples.rapid")
+		RestService restService = RepreZenImporterTest.importRepreZenAndGenFirstService("TaxBlasterWithExamples.rapid")
 		def Map<String, RestResource> resources = restService.getResources()
 		assert resources.size() == 5
 		RestResource objectResource = resources.get("/people")
@@ -62,7 +62,7 @@ class ExamplesTest extends GroovyTestCase {
 	}
 
 	public void testExternalExamplesInResponse() {
-		RestService restService = RepreZenImporterTest.importRepreZen("externalExamples/TaxBlasterWithExternalExamples.rapid")
+		RestService restService = RepreZenImporterTest.importRepreZenAndGenFirstService("externalExamples/TaxBlasterWithExternalExamples.rapid")
 		def Map<String, RestResource> resources = restService.getResources()
 		assert resources.size() == 2
 		RestResource objectResource = resources.get("/people/{id}")
@@ -79,7 +79,7 @@ class ExamplesTest extends GroovyTestCase {
 	}
 
 	public void testExternalExamplesInRequest() {
-		RestService restService = RepreZenImporterTest.importRepreZen("externalExamples/TaxBlasterWithExternalExamples.rapid")
+		RestService restService = RepreZenImporterTest.importRepreZenAndGenFirstService("externalExamples/TaxBlasterWithExternalExamples.rapid")
 		def Map<String, RestResource> resources = restService.getResources()
 		assert resources.size() == 2
 		RestResource objectResource = resources.get("/people/{id}")

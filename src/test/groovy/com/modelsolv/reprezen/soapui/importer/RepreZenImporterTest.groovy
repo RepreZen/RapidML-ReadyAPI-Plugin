@@ -17,7 +17,7 @@ class RepreZenImporterTest extends GroovyTestCase {
 	RestService restService;
 
 	protected void setUp() {
-		restService = importRepreZen("TaxBlaster.rapid")
+		restService = importRepreZenAndGenFirstService("TaxBlaster.rapid")
 	}
 	protected void tearDown() {
 		restService = null
@@ -71,7 +71,7 @@ class RepreZenImporterTest extends GroovyTestCase {
 		assert response != null
 		assert response.getStatus() == [200]
 	}
-	
+
 	public void testMessageParameters() {
 		def Map<String, RestResource> resources = restService.getResources()
 		RestResource objectResource = resources.get("/taxFilings")
@@ -104,10 +104,14 @@ class RepreZenImporterTest extends GroovyTestCase {
 		assert response400.getStatus() == [400]
 	}
 
-	public static def RestService importRepreZen( def path ) {
+	public static def RestService importRepreZenAndGenFirstService( def path ) {
+		return importRepreZen(path).get(0);
+	}
+
+	public static def List<RestService> importRepreZen( def path ) {
 		WsdlProject project = new WsdlProject()
 		RepreZenImporter importer = new RepreZenImporter( project )
 		String uri = new File( "src/test/resources/" + path ).toURI().toURL().toString();
-		return importer.importZenModel(uri).get(0);
+		return importer.importZenModel(uri);
 	}
 }

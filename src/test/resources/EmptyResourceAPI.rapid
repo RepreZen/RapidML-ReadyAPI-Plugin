@@ -1,0 +1,7 @@
+rapidModel TaxBlaster
+	resourceAPI TaxBlasterInterface baseURI "http://taxblaster.com/api"
+	dataModel TaxBlasterDataModel
+		structure TaxFiling
+			/** A unique, system-assigned identifier for the tax filing. */
+			filingID : string
+

@@ -22,7 +22,7 @@ class ExportModelsCreatedByImporterTests extends GroovyTestCase {
 
 	protected String exportImportedModel(String modelFile) {
 		WsdlProject project = new WsdlProject()
-		RestService restService = RepreZenImporterTest.importRepreZen(modelFile)
+		RestService restService = RepreZenImporterTest.importRepreZenAndGenFirstService(modelFile)
 		project.getInterfaceList().add(restService)
 		RepreZenExporter exporter = new RepreZenExporter( project )
 		return exporter.createRepreZenAsText( restService.name, restService, restService.getBasePath())

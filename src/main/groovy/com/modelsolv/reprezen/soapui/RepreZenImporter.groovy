@@ -25,6 +25,7 @@ import com.eviware.soapui.impl.rest.support.RestParamsPropertyHolder
 import com.eviware.soapui.impl.rest.support.RestParamsPropertyHolder.ParameterStyle
 import com.eviware.soapui.impl.wsdl.WsdlProject
 import com.eviware.soapui.support.StringUtils
+import com.eviware.soapui.support.UISupport;
 import com.modelsolv.reprezen.restapi.HttpMessageParameterLocation
 import com.modelsolv.reprezen.restapi.MatrixParameter
 import com.modelsolv.reprezen.restapi.MediaType
@@ -62,6 +63,9 @@ class RepreZenImporter {
 		logger.info("Importing RepreZen / RAPID-ML model [$url]")
 		ZenModel zenModel = HeadlessZenModelLoader.loadModel(URI.createURI(url))
 		zenModel.generateImplicitValues()
+		if (zenModel.resourceAPIs.isEmpty()) {
+			UISupport.showInfoMessage("The selected RAPID-ML model does not contain any interface definitions!");
+		}
 		def List<RestService> result = zenModel.resourceAPIs.collect {
 			RestService restService = createRestService(it)
 		}
@@ -113,9 +117,9 @@ class RepreZenImporter {
 			def TypedRequest rapidRequest= rapidMethod.request
 			createMethodRepresentations(soapUiMethod, rapidRequest, RestRepresentation.Type.REQUEST)
 			def List<MediaType> mediaTypes = rapidRequest.mediaTypes
-//			if (mediaTypes.isEmpty()) {
-//				mediaTypes = rapidMethod.getContainingResourceDefinition().getMediaTypes()
-//			}
+			//			if (mediaTypes.isEmpty()) {
+			//				mediaTypes = rapidMethod.getContainingResourceDefinition().getMediaTypes()
+			//			}
 			if (mediaTypes.size() > 0) {
 				mediaTypes.each {MediaType mediaType ->
 					def RestRequest soapUiRequest = soapUiMethod.addNewRequest("Request " + mediaType.name)
