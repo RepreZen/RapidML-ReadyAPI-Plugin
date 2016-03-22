@@ -269,7 +269,7 @@ class RepreZenExporter {
 	}
 
 	public static String createFileName( String path, String title ) {
-		return path + File.separatorChar + StringUtils.createFileName( title, (char)'-' ) + ".zen"
+		return path + File.separatorChar + StringUtils.createFileName( title, (char)'-' ) + ".rapid"
 	}
 
 	static boolean hasContent( String str ) {
