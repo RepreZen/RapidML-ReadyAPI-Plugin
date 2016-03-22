@@ -94,22 +94,51 @@ class RepreZenExporter {
 
 	private def exportRestService(RestService restService, ResourceAPI resourceAPI, DataModel dataModel) {
 		restService.resourceList.each {
-			def ServiceDataResource res = createResourceDefinition( it, resourceAPI, dataModel)
+			def ServiceDataResource res = toResourceDefinition( it, resourceAPI, dataModel)
 			resourceAPI.ownedResourceDefinitions.add(res)
 		}
 	}
 
-	private def ServiceDataResource createResourceDefinition( RestResource resource, ResourceAPI resourceAPI, DataModel dataModel ) {
-		ServiceDataResource result = restapiFactory.createObjectResource()
+	private def ServiceDataResource toResourceDefinition( RestResource resource, ResourceAPI resourceAPI, DataModel dataModel ) {
+		ServiceDataResource result = createResource(resource)
+
+		result.URI = createUriWithParameters(resource)
+
+		resource.restMethodList.each {
+			Method method = createMethod( it, resourceAPI )
+			result.methods.add(method)
+		}
+
+		resource.childResourceList.each {
+			ResourceDefinition res = toResourceDefinition( it, resourceAPI, dataModel)
+			resourceAPI.ownedResourceDefinitions.add(res )
+		}
+		Structure structure = datatypesFactory.createStructure()
+		structure.setName(result.getName() + "Type")
+		dataModel.getOwnedDataTypes().add(structure)
+		result.setType(structure)
+		return result
+	}
+
+	private ServiceDataResource createResource(RestResource resource) {
+		def result = isCollectionResource(resource) ? restapiFactory.createCollectionResource() : restapiFactory.createObjectResource();
 		result.name = normalize(resource.name)
-		if( hasContent(resource.description))
+		if (hasContent(resource.description)) {
 			addDocumentation(result, resource.description)
+		}
+		result
+	}
 
+	private boolean isCollectionResource(RestResource resource) {
+		resource.name.toLowerCase().contains("collection")
+	}
 
+	private URI createUriWithParameters(RestResource resource) {
 		URI uri = restapiFactory.createURI()
 		Collection<RestParameter> templateParams = resource.params.values().findAll{
 			it.style == RestParamsPropertyHolder.ParameterStyle.TEMPLATE
 		}
+
 		resource.path.split("/").each {
 			String segment = it
 			URISegment uriSegment
@@ -131,22 +160,7 @@ class RepreZenExporter {
 			}
 			uri.segments.add(uriSegment)
 		}
-		result.URI = uri
-
-		resource.restMethodList.each {
-			Method method = createMethod( it, resourceAPI )
-			result.methods.add(method)
-		}
-
-		resource.childResourceList.each {
-			ResourceDefinition res = createResourceDefinition( it, resourceAPI, dataModel)
-			resourceAPI.ownedResourceDefinitions.add(res )
-		}
-		Structure structure = datatypesFactory.createStructure()
-		dataModel.getOwnedDataTypes().add(structure)
-		structure.setName(result.getName() + "Type")
-		result.setType(structure)
-		return result
+		uri
 	}
 
 	private def createMethod( RestMethod restMethod, ResourceAPI resourceAPI ) {
@@ -156,7 +170,7 @@ class RepreZenExporter {
 
 		TypedRequest request = restapiFactory.createTypedRequest()
 		result.request = request
-		restMethod.requestList.findAll{it.response == null}.each {
+		restMethod.requestList.findAll{ it.response == null }.each {
 			MediaType mediaType = mediaTypeRegistry.getElement(it.mediaType)
 			if (mediaType != null) {
 				request.mediaTypes.add(mediaType)
@@ -174,9 +188,11 @@ class RepreZenExporter {
 				}
 			}
 		}
-		List<RestRepresentation> responses = restMethod.representations.findAll{it.type == RestRepresentation.Type.RESPONSE || it.type == RestRepresentation.Type.FAULT }
-		responses.each{restResponse ->
-			restResponse.status.each {responseStatus ->
+		List<RestRepresentation> responses = restMethod.representations.findAll{
+			it.type == RestRepresentation.Type.RESPONSE || it.type == RestRepresentation.Type.FAULT
+		}
+		responses.each{ restResponse ->
+			restResponse.status.each { responseStatus ->
 				TypedResponse response = restapiFactory.createTypedResponse()
 				result.responses.add(response)
 				MediaType mediaType = mediaTypeRegistry.getElement(restResponse.mediaType)

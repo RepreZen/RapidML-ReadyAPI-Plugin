@@ -65,6 +65,12 @@ class RepreZenExporterTests extends GroovyTestCase {
 	}
 
 	public static void validateModel(String modelText) {
+		def zenModel = loadModel(modelText);
+		// generateImplicitValues() throws an exception if a resource does not have a corresponding data type
+		zenModel.generateImplicitValues()
+	}
+
+	public static ZenModel loadModel(String modelText) {
 		new XtextDslStandaloneSetup().createInjectorAndDoEMFRegistration();
 		XtextResource resource = new XtextResourceSet().createResource(URI.createURI("resource.zen"));
 		resource.load(new URIConverter.ReadableInputStream(modelText, "UTF-8"), null);
@@ -80,7 +86,6 @@ class RepreZenExporterTests extends GroovyTestCase {
 		for (Issue issue: validator.validate(resource, CheckMode.ALL, CancelIndicator.NullImpl)) {
 			fail(issue.getMessage());
 		}
-		// generateImplicitValues() throws an exception if a resource does not have a corresponding data type
-		zenModel.generateImplicitValues()
+		zenModel
 	}
 }
