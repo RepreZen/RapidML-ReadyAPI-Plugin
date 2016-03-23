@@ -1,7 +1,7 @@
 /* 
   The TaxBlaster model contains the REST interface for TaxBlaster, and its supporting datatypes.
 */
-zenModel TaxBlasterWithExamples
+rapidModel TaxBlasterWithExamples
 	resourceAPI TaxBlasterInterface baseURI "http://taxblaster.com/api"
 		/** The Index Resource is the entry point to the TaxBlaster API.  
     To minimize coupling, consuming applications should start here, 

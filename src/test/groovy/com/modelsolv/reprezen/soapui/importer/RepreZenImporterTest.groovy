@@ -17,7 +17,7 @@ class RepreZenImporterTest extends GroovyTestCase {
 	RestService restService;
 
 	protected void setUp() {
-		restService = importRepreZen("TaxBlaster.zen")
+		restService = importRepreZen("TaxBlaster.rapid")
 	}
 	protected void tearDown() {
 		restService = null

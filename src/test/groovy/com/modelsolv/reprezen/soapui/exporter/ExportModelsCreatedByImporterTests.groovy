@@ -9,13 +9,13 @@ import com.modelsolv.reprezen.soapui.importer.RepreZenImporterTest
 class ExportModelsCreatedByImporterTests extends GroovyTestCase {
 
 	public void testTaxBlaster() {
-		String modelText = exportImportedModel("TaxBlaster.zen")
+		String modelText = exportImportedModel("TaxBlaster.rapid")
 		Console.println( modelText )
 		RepreZenExporterTests.validateModel(modelText)
 	}
 
 	public void testTaxBlasterWithExamples() {
-		String modelText = exportImportedModel("TaxBlasterWithExamples.zen")
+		String modelText = exportImportedModel("TaxBlasterWithExamples.rapid")
 		Console.println( modelText )
 		RepreZenExporterTests.validateModel(modelText)
 	}

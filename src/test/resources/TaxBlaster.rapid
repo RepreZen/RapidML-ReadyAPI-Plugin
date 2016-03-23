@@ -1,7 +1,7 @@
 /* 
   This is the TaxBlaster API model created in the RepreZen Quick Start guide.
 */
-zenModel TaxBlaster
+rapidModel TaxBlaster
 	resourceAPI TaxBlasterInterface baseURI "http://taxblaster.com/api"
 
 		/** The Index Resource is the entry point to the TaxBlaster API. To minimize 
