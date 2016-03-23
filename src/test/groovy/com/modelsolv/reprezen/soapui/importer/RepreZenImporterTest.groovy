@@ -10,7 +10,8 @@ import com.eviware.soapui.impl.rest.support.RestParameter
 import com.eviware.soapui.impl.rest.support.RestParamsPropertyHolder.ParameterStyle;
 import com.eviware.soapui.impl.wsdl.WsdlProject
 import com.modelsolv.reprezen.restapi.HTTPMethods
-import com.modelsolv.reprezen.soapui.RepreZenImporter;;
+import com.modelsolv.reprezen.soapui.RepreZenImporter
+import com.modelsolv.reprezen.soapui.ZenModelUtils;;;
 
 
 class RepreZenImporterTest extends GroovyTestCase {
@@ -112,6 +113,7 @@ class RepreZenImporterTest extends GroovyTestCase {
 		WsdlProject project = new WsdlProject()
 		RepreZenImporter importer = new RepreZenImporter( project )
 		String uri = new File( "src/test/resources/" + path ).toURI().toURL().toString();
-		return importer.importZenModel(uri);
+		def zenModel = ZenModelUtils.loadModel(uri)
+		return importer.importZenModel(zenModel);
 	}
 }
