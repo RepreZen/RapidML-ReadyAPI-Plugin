@@ -66,7 +66,7 @@ class RepreZenExporterTests extends GroovyTestCase {
 
 	public static void validateModel(String modelText) {
 		new XtextDslStandaloneSetup().createInjectorAndDoEMFRegistration();
-		XtextResource resource = new XtextResourceSet().createResource(URI.createURI("resource.zen"));
+		XtextResource resource = new XtextResourceSet().createResource(URI.createURI("resource.rapid"));
 		resource.load(new URIConverter.ReadableInputStream(modelText, "UTF-8"), null);
 		for (Resource.Diagnostic error: resource.validateConcreteSyntax()) {
 			fail(error.getMessage());
