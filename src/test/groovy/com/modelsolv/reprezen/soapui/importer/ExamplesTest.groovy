@@ -2,15 +2,12 @@ package com.modelsolv.reprezen.soapui.importer
 
 import com.eviware.soapui.impl.rest.RestMethod
 import com.eviware.soapui.impl.rest.RestRepresentation
-import com.eviware.soapui.impl.rest.RestRequest;
+import com.eviware.soapui.impl.rest.RestRequest
 import com.eviware.soapui.impl.rest.RestResource
 import com.eviware.soapui.impl.rest.RestService
-import com.eviware.soapui.impl.rest.support.RestParameter;
-import com.eviware.soapui.impl.wsdl.WsdlProject
-import com.modelsolv.reprezen.restapi.HTTPMethods;
 
 
-class ExamplesTest extends GroovyTestCase {
+class ExamplesTest extends ImporterTestBase {
 	def personXmlContents = """<?xml version="1.0" encoding="UTF-8"?>
 <Person version="1.0">
   <taxpayerID>ssn-xx-xxxx</taxpayerID>
@@ -21,7 +18,7 @@ class ExamplesTest extends GroovyTestCase {
 """
 
 	public void testInlineExamples() {
-		RestService restService = RepreZenImporterTest.importRepreZenAndGenFirstService("TaxBlasterWithExamples.rapid")
+		RestService restService = importRepreZenAndGenFirstService("TaxBlasterWithExamples.rapid")
 		def Map<String, RestResource> resources = restService.getResources()
 		assert resources.size() == 5
 		RestResource objectResource = resources.get("/people")
@@ -62,7 +59,7 @@ class ExamplesTest extends GroovyTestCase {
 	}
 
 	public void testExternalExamplesInResponse() {
-		RestService restService = RepreZenImporterTest.importRepreZenAndGenFirstService("externalExamples/TaxBlasterWithExternalExamples.rapid")
+		RestService restService = importRepreZenAndGenFirstService("externalExamples/TaxBlasterWithExternalExamples.rapid")
 		def Map<String, RestResource> resources = restService.getResources()
 		assert resources.size() == 2
 		RestResource objectResource = resources.get("/people/{id}")
@@ -79,7 +76,7 @@ class ExamplesTest extends GroovyTestCase {
 	}
 
 	public void testExternalExamplesInRequest() {
-		RestService restService = RepreZenImporterTest.importRepreZenAndGenFirstService("externalExamples/TaxBlasterWithExternalExamples.rapid")
+		RestService restService = importRepreZenAndGenFirstService("externalExamples/TaxBlasterWithExternalExamples.rapid")
 		def Map<String, RestResource> resources = restService.getResources()
 		assert resources.size() == 2
 		RestResource objectResource = resources.get("/people/{id}")

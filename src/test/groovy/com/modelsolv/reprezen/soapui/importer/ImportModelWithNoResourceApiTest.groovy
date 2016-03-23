@@ -1,24 +1,23 @@
 package com.modelsolv.reprezen.soapui.importer
 
-import com.eviware.soapui.impl.rest.RestMethod
-import com.eviware.soapui.impl.rest.RestRepresentation
-import com.eviware.soapui.impl.rest.RestRequest;
-import com.eviware.soapui.impl.rest.RestResource
 import com.eviware.soapui.impl.rest.RestService
-import com.eviware.soapui.impl.rest.support.RestParameter;
-import com.eviware.soapui.impl.wsdl.WsdlProject
-import com.modelsolv.reprezen.restapi.HTTPMethods;
+import com.modelsolv.reprezen.soapui.ZenModelUtils
 
 
-class ImportModelWithNoResourceApiTest extends GroovyTestCase {
+class ImportModelWithNoResourceApiTest extends ImporterTestBase {
 
-	public void testUndefinedResourceAPI() {
-		def result = RepreZenImporterTest.importRepreZen("UndefinedResourceAPI.rapid")
+	public void testUndefinedResourceHasValidationWarning() {
+		def zenModel = ZenModelUtils.loadModel(getTestModelUri("UndefinedResourceAPI.rapid"))
+		assert "The selected RAPID-ML model does not contain any interface definitions!" in ZenModelUtils.getWarnings(zenModel)
+	}
+
+	public void testUndefinedResourceAPIImportedNormally() {
+		def result = importRepreZen("UndefinedResourceAPI.rapid")
 		assert result.isEmpty()
 	}
 
-	public void testEmptyResourceAPI() {
-		RestService restService = RepreZenImporterTest.importRepreZenAndGenFirstService("EmptyResourceAPI.rapid")
+	public void testEmptyResourceAPIImportedNormally() {
+		RestService restService = importRepreZenAndGenFirstService("EmptyResourceAPI.rapid")
 		assert restService != null
 	}
 }
