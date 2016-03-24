@@ -1,23 +1,19 @@
 package com.modelsolv.reprezen.soapui.importer
 
-import com.eviware.soapui.config.TestOnDemandLocationsRequestDocumentConfig.TestOnDemandLocationsRequest.Request;
 import com.eviware.soapui.impl.rest.RestMethod
 import com.eviware.soapui.impl.rest.RestRepresentation
-import com.eviware.soapui.impl.rest.RestRequest;
+import com.eviware.soapui.impl.rest.RestRequest
 import com.eviware.soapui.impl.rest.RestResource
 import com.eviware.soapui.impl.rest.RestService
 import com.eviware.soapui.impl.rest.support.RestParameter
-import com.eviware.soapui.impl.rest.support.RestParamsPropertyHolder.ParameterStyle;
-import com.eviware.soapui.impl.wsdl.WsdlProject
-import com.modelsolv.reprezen.restapi.HTTPMethods
-import com.modelsolv.reprezen.soapui.RepreZenImporter;;
+import com.eviware.soapui.impl.rest.support.RestParamsPropertyHolder.ParameterStyle
 
 
-class RepreZenImporterTest extends GroovyTestCase {
+class RepreZenImporterTest extends ImporterTestBase {
 	RestService restService;
 
 	protected void setUp() {
-		restService = importRepreZen("TaxBlaster.rapid")
+		restService = importRepreZenAndGenFirstService("TaxBlaster.rapid")
 	}
 	protected void tearDown() {
 		restService = null
@@ -71,7 +67,7 @@ class RepreZenImporterTest extends GroovyTestCase {
 		assert response != null
 		assert response.getStatus() == [200]
 	}
-	
+
 	public void testMessageParameters() {
 		def Map<String, RestResource> resources = restService.getResources()
 		RestResource objectResource = resources.get("/taxFilings")
@@ -104,10 +100,4 @@ class RepreZenImporterTest extends GroovyTestCase {
 		assert response400.getStatus() == [400]
 	}
 
-	public static def RestService importRepreZen( def path ) {
-		WsdlProject project = new WsdlProject()
-		RepreZenImporter importer = new RepreZenImporter( project )
-		String uri = new File( "src/test/resources/" + path ).toURI().toURL().toString();
-		return importer.importZenModel(uri).get(0);
-	}
 }

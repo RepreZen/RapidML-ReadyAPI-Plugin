@@ -4,13 +4,7 @@ import org.apache.xmlbeans.XmlBoolean
 import org.apache.xmlbeans.XmlDate
 import org.apache.xmlbeans.XmlDouble
 import org.apache.xmlbeans.XmlInteger
-import org.apache.xmlbeans.XmlString;
-import org.eclipse.emf.common.util.URI
-import org.eclipse.emf.ecore.resource.Resource.Diagnostic
-import org.eclipse.xtext.resource.XtextResource
-import org.eclipse.xtext.resource.XtextResourceSet
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
+import org.apache.xmlbeans.XmlString
 
 import com.eviware.soapui.impl.rest.RestMethod
 import com.eviware.soapui.impl.rest.RestRepresentation
@@ -37,8 +31,6 @@ import com.modelsolv.reprezen.restapi.TypedMessage
 import com.modelsolv.reprezen.restapi.TypedRequest
 import com.modelsolv.reprezen.restapi.ZenModel
 import com.modelsolv.reprezen.restapi.libraries.util.PrimitiveTypes
-import com.modelsolv.reprezen.restapi.xtext.XtextDslStandaloneSetup
-import com.modelsolv.reprezen.restapi.xtext.loaders.HeadlessZenModelLoader;
 
 
 /**
@@ -48,7 +40,6 @@ import com.modelsolv.reprezen.restapi.xtext.loaders.HeadlessZenModelLoader;
  */
 class RepreZenImporter {
 
-	private static Logger logger = LoggerFactory.getLogger(RepreZenImporter.class)
 	private final WsdlProject project
 	private boolean createSampleRequests
 	private RestMockService restMockService
@@ -58,10 +49,7 @@ class RepreZenImporter {
 		this.project = project
 	}
 
-	public List<RestService> importZenModel(String url) {
-		logger.info("Importing RepreZen / RAPID-ML model [$url]")
-		ZenModel zenModel = HeadlessZenModelLoader.loadModel(URI.createURI(url))
-		zenModel.generateImplicitValues()
+	public List<RestService> importZenModel(ZenModel zenModel) {
 		def List<RestService> result = zenModel.resourceAPIs.collect {
 			RestService restService = createRestService(it)
 		}
@@ -113,9 +101,9 @@ class RepreZenImporter {
 			def TypedRequest rapidRequest= rapidMethod.request
 			createMethodRepresentations(soapUiMethod, rapidRequest, RestRepresentation.Type.REQUEST)
 			def List<MediaType> mediaTypes = rapidRequest.mediaTypes
-//			if (mediaTypes.isEmpty()) {
-//				mediaTypes = rapidMethod.getContainingResourceDefinition().getMediaTypes()
-//			}
+			//			if (mediaTypes.isEmpty()) {
+			//				mediaTypes = rapidMethod.getContainingResourceDefinition().getMediaTypes()
+			//			}
 			if (mediaTypes.size() > 0) {
 				mediaTypes.each {MediaType mediaType ->
 					def RestRequest soapUiRequest = soapUiMethod.addNewRequest("Request " + mediaType.name)

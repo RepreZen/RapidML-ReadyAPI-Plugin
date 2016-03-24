@@ -10,10 +10,10 @@ import com.eviware.soapui.impl.wsdl.WsdlProject
 import com.modelsolv.reprezen.restapi.HTTPMethods;
 
 
-class ImportedDataModelTest extends GroovyTestCase {
+class ImportedDataModelTest extends ImporterTestBase {
 
 	public void testDataModelImport() {
-		RestService restService = RepreZenImporterTest.importRepreZen("dataModelImport/TaxBlaster.rapid")
+		RestService restService = importRepreZenAndGenFirstService("dataModelImport/TaxBlaster.rapid")
 		def Map<String, RestResource> resources = restService.getResources()
 		assert resources.size() == 4
 	}
