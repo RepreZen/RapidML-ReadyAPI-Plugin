@@ -1,15 +1,5 @@
 package com.modelsolv.reprezen.soapui.exporter
 
-import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.URIConverter;
-import org.eclipse.emf.common.util.URI
-import org.eclipse.xtext.resource.XtextResource;
-import org.eclipse.xtext.resource.XtextResourceSet
-import org.eclipse.xtext.util.CancelIndicator;
-import org.eclipse.xtext.validation.CheckMode;
-import org.eclipse.xtext.validation.IResourceValidator
-import org.eclipse.xtext.validation.Issue;
-
 import com.eviware.soapui.impl.rest.RestMethod
 import com.eviware.soapui.impl.rest.RestRepresentation
 import com.eviware.soapui.impl.rest.RestRequest
@@ -19,12 +9,9 @@ import com.eviware.soapui.impl.rest.RestService
 import com.eviware.soapui.impl.rest.RestServiceFactory
 import com.eviware.soapui.impl.rest.support.RestParamsPropertyHolder
 import com.eviware.soapui.impl.wsdl.WsdlProject
-import com.modelsolv.reprezen.restapi.ZenModel;
-import com.modelsolv.reprezen.restapi.xtext.XtextDslStandaloneSetup;
-import com.modelsolv.reprezen.restapi.xtext.loaders.HeadlessZenModelLoader;
-import com.modelsolv.reprezen.soapui.RepreZenExporter;
+import com.modelsolv.reprezen.soapui.RepreZenExporter
 
-class RepreZenExporterTests extends GroovyTestCase {
+class RepreZenExporterTests extends ExporterTestBase {
 
 	public void testExport() {
 		WsdlProject project = new WsdlProject()
@@ -61,31 +48,7 @@ class RepreZenExporterTests extends GroovyTestCase {
 		Console.println( modelText )
 
 		assertNotNull modelText
-		validateModel(modelText)
+		assertModelIsValid(modelText)
 	}
 
-	public static void validateModel(String modelText) {
-		def zenModel = loadModel(modelText);
-		// generateImplicitValues() throws an exception if a resource does not have a corresponding data type
-		zenModel.generateImplicitValues()
-	}
-
-	public static ZenModel loadModel(String modelText) {
-		new XtextDslStandaloneSetup().createInjectorAndDoEMFRegistration();
-		XtextResource resource = new XtextResourceSet().createResource(URI.createURI("resource.rapid"));
-		resource.load(new URIConverter.ReadableInputStream(modelText, "UTF-8"), null);
-		for (Resource.Diagnostic error: resource.validateConcreteSyntax()) {
-			fail(error.getMessage());
-		}
-		for (Resource.Diagnostic error: resource.getParseResult().getSyntaxErrors()) {
-			fail(error.getMessage());
-		}
-		IResourceValidator validator = resource.getResourceServiceProvider()
-				.getResourceValidator();
-		ZenModel zenModel = resource.getContents().get(0);
-		for (Issue issue: validator.validate(resource, CheckMode.ALL, CancelIndicator.NullImpl)) {
-			fail(issue.getMessage());
-		}
-		zenModel
-	}
 }

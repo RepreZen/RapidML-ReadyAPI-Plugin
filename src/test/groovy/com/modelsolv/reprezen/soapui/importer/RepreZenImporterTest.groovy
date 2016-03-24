@@ -1,19 +1,15 @@
 package com.modelsolv.reprezen.soapui.importer
 
-import com.eviware.soapui.config.TestOnDemandLocationsRequestDocumentConfig.TestOnDemandLocationsRequest.Request;
 import com.eviware.soapui.impl.rest.RestMethod
 import com.eviware.soapui.impl.rest.RestRepresentation
-import com.eviware.soapui.impl.rest.RestRequest;
+import com.eviware.soapui.impl.rest.RestRequest
 import com.eviware.soapui.impl.rest.RestResource
 import com.eviware.soapui.impl.rest.RestService
 import com.eviware.soapui.impl.rest.support.RestParameter
-import com.eviware.soapui.impl.rest.support.RestParamsPropertyHolder.ParameterStyle;
-import com.eviware.soapui.impl.wsdl.WsdlProject
-import com.modelsolv.reprezen.restapi.HTTPMethods
-import com.modelsolv.reprezen.soapui.RepreZenImporter;;
+import com.eviware.soapui.impl.rest.support.RestParamsPropertyHolder.ParameterStyle
 
 
-class RepreZenImporterTest extends GroovyTestCase {
+class RepreZenImporterTest extends ImporterTestBase {
 	RestService restService;
 
 	protected void setUp() {
@@ -104,14 +100,4 @@ class RepreZenImporterTest extends GroovyTestCase {
 		assert response400.getStatus() == [400]
 	}
 
-	public static def RestService importRepreZenAndGenFirstService( def path ) {
-		return importRepreZen(path).get(0);
-	}
-
-	public static def List<RestService> importRepreZen( def path ) {
-		WsdlProject project = new WsdlProject()
-		RepreZenImporter importer = new RepreZenImporter( project )
-		String uri = new File( "src/test/resources/" + path ).toURI().toURL().toString();
-		return importer.importZenModel(uri);
-	}
 }

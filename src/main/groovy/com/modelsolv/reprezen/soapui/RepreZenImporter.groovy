@@ -4,13 +4,7 @@ import org.apache.xmlbeans.XmlBoolean
 import org.apache.xmlbeans.XmlDate
 import org.apache.xmlbeans.XmlDouble
 import org.apache.xmlbeans.XmlInteger
-import org.apache.xmlbeans.XmlString;
-import org.eclipse.emf.common.util.URI
-import org.eclipse.emf.ecore.resource.Resource.Diagnostic
-import org.eclipse.xtext.resource.XtextResource
-import org.eclipse.xtext.resource.XtextResourceSet
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
+import org.apache.xmlbeans.XmlString
 
 import com.eviware.soapui.impl.rest.RestMethod
 import com.eviware.soapui.impl.rest.RestRepresentation
@@ -25,7 +19,6 @@ import com.eviware.soapui.impl.rest.support.RestParamsPropertyHolder
 import com.eviware.soapui.impl.rest.support.RestParamsPropertyHolder.ParameterStyle
 import com.eviware.soapui.impl.wsdl.WsdlProject
 import com.eviware.soapui.support.StringUtils
-import com.eviware.soapui.support.UISupport;
 import com.modelsolv.reprezen.restapi.HttpMessageParameterLocation
 import com.modelsolv.reprezen.restapi.MatrixParameter
 import com.modelsolv.reprezen.restapi.MediaType
@@ -38,8 +31,6 @@ import com.modelsolv.reprezen.restapi.TypedMessage
 import com.modelsolv.reprezen.restapi.TypedRequest
 import com.modelsolv.reprezen.restapi.ZenModel
 import com.modelsolv.reprezen.restapi.libraries.util.PrimitiveTypes
-import com.modelsolv.reprezen.restapi.xtext.XtextDslStandaloneSetup
-import com.modelsolv.reprezen.restapi.xtext.loaders.HeadlessZenModelLoader;
 
 
 /**
@@ -49,7 +40,6 @@ import com.modelsolv.reprezen.restapi.xtext.loaders.HeadlessZenModelLoader;
  */
 class RepreZenImporter {
 
-	private static Logger logger = LoggerFactory.getLogger(RepreZenImporter.class)
 	private final WsdlProject project
 	private boolean createSampleRequests
 	private RestMockService restMockService
@@ -59,13 +49,7 @@ class RepreZenImporter {
 		this.project = project
 	}
 
-	public List<RestService> importZenModel(String url) {
-		logger.info("Importing RepreZen / RAPID-ML model [$url]")
-		ZenModel zenModel = HeadlessZenModelLoader.loadModel(URI.createURI(url))
-		zenModel.generateImplicitValues()
-		if (zenModel.resourceAPIs.isEmpty()) {
-			UISupport.showInfoMessage("The selected RAPID-ML model does not contain any interface definitions!");
-		}
+	public List<RestService> importZenModel(ZenModel zenModel) {
 		def List<RestService> result = zenModel.resourceAPIs.collect {
 			RestService restService = createRestService(it)
 		}
