@@ -3,20 +3,32 @@ package com.modelsolv.reprezen.soapui.exporter
 import com.eviware.soapui.impl.rest.RestService
 import com.eviware.soapui.impl.rest.RestServiceFactory
 import com.eviware.soapui.impl.wsdl.WsdlProject
+import com.modelsolv.reprezen.restapi.CollectionResource
+import com.modelsolv.reprezen.restapi.ObjectResource;
 import com.modelsolv.reprezen.soapui.RepreZenExporter
 import com.modelsolv.reprezen.soapui.importer.RepreZenImporterTest
 
 class ExportModelsCreatedByImporterTests extends ExporterTestBase {
 
-	public void testTaxBlaster() {
+	public void testTaxBlasterIsValid() {
 		String modelText = exportImportedModel("TaxBlaster.rapid")
-		Console.println( modelText )
 		assertModelIsValid(modelText)
+	}
+
+	public void testCollectionResourceTypePreserved() {
+		String modelText = exportImportedModel("TaxBlaster.rapid")
+		def zenModel = RepreZenExporterTests.loadModel(modelText)
+		def resources = zenModel.resourceAPIs.get(0).ownedResourceDefinitions;
+
+		def taxFilingObject = resources.find{it.name == "TaxFilingObject"}
+		assert taxFilingObject instanceof ObjectResource
+
+		def taxFilingCollection = resources.find{it.name == "TaxFilingCollection"}
+		assert taxFilingCollection instanceof CollectionResource
 	}
 
 	public void testTaxBlasterWithExamples() {
 		String modelText = exportImportedModel("TaxBlasterWithExamples.rapid")
-		Console.println( modelText )
 		assertModelIsValid(modelText)
 	}
 
