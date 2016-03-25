@@ -4,7 +4,7 @@
 = The RAPID-ML Plugin for Ready! API
 
 The RAPID-ML Plugin for Ready! API allows SmartBear's
-http://smartbear.com/product/ready-api/overview/[Ready! API] tools to work with
+http://smartbear.com/product/ready-api/overview/[Ready! API] testing and virtualization suite to work with
 http://rapid-api.org/rapid-ml[RAPID-ML] models created in http://www.reprezen.com[RepreZen API Studio]. With this
 plugin, you can:
 
