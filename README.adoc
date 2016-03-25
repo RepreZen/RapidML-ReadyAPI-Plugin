@@ -1,15 +1,14 @@
 :experimental:
 :imagesdir: ./images
 
-= RapidML-ReadyAPI-Plugin
+= The RAPID-ML Plugin for Ready! API
 
-The RapidML-ReadyAPI-Plugin allows SmartBear's
+The RAPID-ML Plugin for Ready! API allows SmartBear's
 http://smartbear.com/product/ready-api/overview/[Ready! API] tools to work with
-API models created by http://www.reprezen.com[RepreZen API Studio].  With this
+http://rapid-api.org/rapid-ml[RAPID-ML] models created in http://www.reprezen.com[RepreZen API Studio]. With this
 plugin, you can:
 
-* Import RepreZen's native http://rapid-api.org/rapid-ml[RAPID-ML] API models
-into Ready! API for testing and virtualization.
+* Import RepreZen's native RAPID-ML API models into Ready! API for testing and virtualization.
 
 * Generate an API model in RAPID-ML format from any REST API defined in
  Ready! API, for subsequent editing, documentation, visualization and code
@@ -107,7 +106,7 @@ been exported successfully.
 
 == Building the Plugin
 
-To build the RapidML-ReadyAPI-Plugin, clone the Git repository, make sure you
+To build the RAPID-ML Plugin for Ready! API, clone the Git repository, make sure you
 have maven installed, and run
 
  mvn clean install assembly:single
