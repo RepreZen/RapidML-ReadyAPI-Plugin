@@ -43,7 +43,7 @@ public class ExportRepreZenAction extends AbstractSoapUIAction<RestService>
             if( name.startsWith("/") || name.toLowerCase().startsWith("http"))
                 name = restService.getProject().getName() + " - " + name;
 
-            dialog.setValue(Form.TITLE, name);
+            dialog.setValue(Form.NAME, name);
             String baseUri = restService.getEndpoints().length != 0 ? restService.getEndpoints()[0] : "";
             dialog.setValue(Form.BASEURI, baseUri);
             dialog.setValue(Form.FOLDER, settings.getString(TARGET_PATH, ""));
@@ -54,7 +54,7 @@ public class ExportRepreZenAction extends AbstractSoapUIAction<RestService>
             try
             {
                 RepreZenExporter exporter = new RepreZenExporter( restService.getProject() );
-                String name = dialog.getValue(Form.TITLE);
+                String name = dialog.getValue(Form.NAME);
                 if (!RepreZenExporter.hasContent(name)) {
                 	name = "MyZenModel";
                 }
@@ -91,8 +91,8 @@ public class ExportRepreZenAction extends AbstractSoapUIAction<RestService>
         @AField( name = "Target Folder", description = "Where to save the RepreZen / RAPID-ML model", type = AField.AFieldType.FOLDER )
         public final static String FOLDER = "Target Folder";
 
-        @AField( name = "Title", description = "The API Title", type = AField.AFieldType.STRING )
-        public final static String TITLE = "Title";
+        @AField( name = "Name", description = "The API Name", type = AField.AFieldType.STRING )
+        public final static String NAME = "Name";
 
         @AField( name = "Base URI", description = "The resource model baseUri", type = AField.AFieldType.STRING )
         public final static String BASEURI = "Base URI";
