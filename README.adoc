@@ -19,7 +19,7 @@ plugin, you can:
 To install the plugin to Ready! API:
 
 . Download the plugin JAR file from the
-https://github.com/RepreZen/RapidML-ReadyAPI-Plugin/tree/master/jars[jars page],
+https://github.com/RepreZen/RapidML-ReadyAPI-Plugin/blob/master/jars/RapidML-ReadyAPI-Plugin-1.0-dist.jar[jars page] (click on 'View Raw' to download),
 or <<building-the-plugin,build it yourself>> as described below.
 
 . In Ready! API, click the btn:[Plugins] toolbar button to show the Plugin
