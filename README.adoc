@@ -39,7 +39,7 @@ details.
 == Working with the Plugin
 
 === Importing a RAPID-ML Model
-NOTE: You can use a RAPID-ML model example from the https://github.com/RepreZen/RapidML-ReadyAPI-Plugin/tree/master/RAPID-ML%20Model%20Examples[RAPID-ML Model Examples] folder
+NOTE: You can use models from the https://github.com/RepreZen/RapidML-ReadyAPI-Plugin/tree/master/RAPID-ML%20Model%20Examples[RAPID-ML Model Examples] folder
 
 RepreZen API Studio's _Zen Model_ or _RAPID Model_ is an API description in
 RAPID-ML format.  RAPID-ML includes an intuitive, technology-neutral schema
