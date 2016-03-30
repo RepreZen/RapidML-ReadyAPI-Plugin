@@ -30,7 +30,7 @@ You should see a message box indicating that the plugin has been installed
 successfully.  Click btn:[OK], then btn:[Close] to dismiss the Plugin Manager.
 
 Ready! API is now ready to import and export RepreZen API Studio's native
-http://rapid-apij.org/rapid-ml[RAPID-ML] format.
+http://rapid-api.org/rapid-ml[RAPID-ML] format.
 
 NOTE: The export action is available on the _RestResource_, not on the project
 itself.  See <<working-with-the-plugin,Working with the Plugin>> below for more
